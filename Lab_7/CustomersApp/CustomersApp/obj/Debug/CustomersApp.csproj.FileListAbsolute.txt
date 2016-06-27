@@ -1,0 +1,1 @@
+C:\Projects\Learn\NET_CodeValue\Lab_7\CustomersApp\CustomersApp\bin\Debug\CustomersApp.exe.config
