@@ -18,11 +18,11 @@ namespace CustomersApp
             Customer[] customers = new Customer[5];
             customers[0] = new Customer("Alex", "Ramat Gan");
             customers[1] = new Customer("Zak", "Ariel");
-            customers[2] = new Customer("Shirly", "Kfar Saba") {ID = 200};
+            customers[2] = new Customer("Shirly", "Kfar Saba");
             customers[3] = new Customer("Yosi", "Haifa");
             customers[4] = new Customer("Lior", "Beer Sheva");
 
-            Customer duplicatedCustomer = new Customer("zak", "Ariel") {ID = 2};
+            Customer duplicatedCustomer = new Customer("zak", "Ariel");
 
             Console.WriteLine("Original array:");
             foreach (Customer customer in customers)
