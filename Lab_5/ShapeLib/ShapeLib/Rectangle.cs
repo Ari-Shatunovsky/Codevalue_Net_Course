@@ -40,10 +40,7 @@ namespace ShapeLib
             {
                 return (int)(Area - shape.Area);
             }
-            else
-            {
-                return 0;
-            }
+                return -1;
         }
     }
 } 

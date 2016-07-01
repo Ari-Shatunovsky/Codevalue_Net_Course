@@ -33,8 +33,10 @@ namespace ShapesApp
             rectangleManager.Add(new Rectangle(1, 2));
             rectangleManager.Add(new Rectangle(5, 3));
             rectangleManager.Add(new Rectangle(8, 7));
-            rectangleManager.Sort();
+            //rectangleManager.Sort();
             rectangleManager.DisplayAll();
+
+            Console.ReadLine();
         }
     }
 }
