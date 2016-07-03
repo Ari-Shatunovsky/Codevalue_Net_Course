@@ -47,11 +47,7 @@ namespace CustomersApp
         public override bool Equals(object obj)
         {
             Customer other = obj as Customer;
-            if (other == null)
-            {
-                return false;
-            } 
-            return Equals(other);
+            return other != null && Equals(other);
         }
 
         public override int GetHashCode()

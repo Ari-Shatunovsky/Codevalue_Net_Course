@@ -56,13 +56,13 @@ namespace CustomersApp
 
             //Delegates part
 
-            CustomFilter nameAKFilter = new CustomFilter(NameFilter);
+            CustomFilter nameAKFilter = NameFilter;
             ICollection<Customer> filteredAKCustomers = GetCustomers(customers, nameAKFilter);
 
             Console.WriteLine("Filtered Customers A-K:");
             foreach (Customer customer in filteredAKCustomers)
             {
-                customer.Display();
+                customer?.Display();
             }
 
             ICollection<Customer> filteredLZCustomers = GetCustomers(customers, delegate (Customer customer)
@@ -71,13 +71,13 @@ namespace CustomersApp
             });
 
             Console.WriteLine("Filtered Customers L-Z:");
-            foreach (Customer customer in filteredLZCustomers)
+            foreach (var customer in filteredLZCustomers)
             {
-                customer.Display();
+                customer?.Display();
             }
 
 
-            ICollection<Customer> filteredIDCustomers = GetCustomers(customers, (Customer customer) => customer.ID < 100);
+            ICollection<Customer> filteredIDCustomers = GetCustomers(customers, (customer) => customer.ID < 100);
 
             Console.WriteLine("Filtered Customers ID < 100:");
             foreach (Customer customer in filteredIDCustomers)

@@ -1,1 +1,2 @@
 C:\Projects\Learn\NET_CodeValue\Lab_7\CustomersApp\CustomersApp\bin\Debug\CustomersApp.exe.config
+C:\Projects\Learn\Codevalue_Net_Course\Lab_7\CustomersApp\CustomersApp\bin\Debug\CustomersApp.exe.config
