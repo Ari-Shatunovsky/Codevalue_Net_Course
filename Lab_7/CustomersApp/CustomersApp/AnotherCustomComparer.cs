@@ -6,19 +6,20 @@ namespace CustomersApp
     {
         public int Compare(Customer x, Customer y)
         {
+            if (x == null && y == null)
+            {
+                return 0;
+            }
             if (x == null)
             {
-                if (y == null)
-                {
-                    return 0;
-                }
                 return -1;
             }
             if (y == null)
             {
                 return 1;
             }
-            return x.ID - y.ID;
+            
+            return x.ID.CompareTo(y.ID);
         }
     }
 }

@@ -7,7 +7,8 @@ namespace CustomersApp
 
     public class Customer : IComparable<Customer>, IEquatable<Customer>
     {
-        private static int currentID = 0;
+        //For filtering with id > 100
+        private static int currentID = 98;
 
         public int ID { get; }
         public string Name { get; }
@@ -32,11 +33,7 @@ namespace CustomersApp
 
         public bool Equals(Customer other)
         {
-            if (other == null)
-            {
-                return false;
-            }
-            return string.Equals(Name.ToLower(), other.Name.ToLower()) && ID == other.ID;
+            return other != null && string.Equals(Name.ToLower(), other.Name.ToLower()) && ID == other.ID;
         }
 
         public void Display()

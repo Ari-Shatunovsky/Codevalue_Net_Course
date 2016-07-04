@@ -22,6 +22,9 @@ namespace MailSystem
             Timer timer = new Timer(tcb, mailManager, 0, 1000);
 
             Thread.Sleep(10000);
+
+            //Prevent GC to collect timer;
+            string noOptimization = timer.ToString();
         }
 
         private static void Tcb(object state)

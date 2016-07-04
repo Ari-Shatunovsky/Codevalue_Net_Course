@@ -11,40 +11,25 @@ namespace FileFinder
     {
         static void Main(string[] args)
         {
-            
+
             bool isExit = false;
             while (!isExit)
             {
-                string[] commands;
                 Console.WriteLine("Enter <directory> <search term> or -e for exit");
-                commands = Console.ReadLine().Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
-                if (commands.Length == 1 && commands[0] == "-e")
+
+                string input = Console.ReadLine();
+                if (input != null)
                 {
-                    isExit = true;
-                } else if (commands.Length == 2)
-                {
-                    string directoryName = commands[0];
-                    string searchTerm = commands[1];
-                    if (Directory.Exists(directoryName))
+                    var commands = input.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
+                    if (commands.Length == 1 && commands[0] == "-e")
                     {
-                        string[] fileNames = Directory.GetFiles(directoryName);
-                        foreach (var fileName in fileNames)
-                        {
-                            if (File.ReadAllText(fileName).IndexOf(searchTerm, StringComparison.Ordinal) >= 0)
-                            {
-                                Console.WriteLine("Text {0} found in file {1}.", searchTerm, fileName);
-                            }
-                        }
+                        isExit = true;
                     }
-                    else
+                    else if (commands.Length == 2)
                     {
-                        Console.WriteLine("Directiry don't exists");
+                        
                     }
-                }
-                else
-                {
-                    Console.WriteLine("Command is not supported.");
-                }
+               }
             }
         }
     }

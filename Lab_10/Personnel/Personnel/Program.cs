@@ -11,19 +11,45 @@ namespace Personnel
     {
         static void Main(string[] args)
         {
-            string fileName = "C:\\Projects\\Learn\\Codevalue_Net_Course\\Lab_10\\Personnel\\Personnel.txt";
-            FileStream fileStream = new FileStream(fileName, FileMode.Open,
-                FileAccess.Read, FileShare.None);
-            byte[] data = new byte[fileStream.Length];
-            fileStream.Read(data, 0, (int) fileStream.Length);
-            string[] text = Encoding.UTF8.GetString(data).Split('\n');
+            string fileName = "..//..//Personnel.txt";
 
-            foreach (var person in text)
+            try
             {
-                Console.WriteLine(person);
+                List<string> data = ReadFile(fileName);
+
+                foreach (var text in data)
+                {
+                    Console.WriteLine(text);
+                }
             }
-            
-            Console.ReadLine();
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("File not found");
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("IO exception");
+            }
+            finally
+            {
+                Console.ReadLine();
+            }
+
+        }
+
+        static List<string> ReadFile(string fileName)
+        {
+            FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.None);
+            StreamReader reader = new StreamReader(fileStream);
+
+            List<string> data = new List<string>();
+
+            while (!reader.EndOfStream)
+            {
+                data.Add(reader.ReadLine());
+            }
+
+            return data;
         }
     }
 }

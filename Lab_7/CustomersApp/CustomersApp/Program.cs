@@ -62,22 +62,22 @@ namespace CustomersApp
             Console.WriteLine("Filtered Customers A-K:");
             foreach (Customer customer in filteredAKCustomers)
             {
-                customer?.Display();
+                customer.Display();
             }
 
             ICollection<Customer> filteredLZCustomers = GetCustomers(customers, delegate (Customer customer)
             {
-                return Regex.IsMatch(customer.Name, "^[l-zL-Z]");
+                return customer != null && Regex.IsMatch(customer.Name, "^[l-zL-Z]");
             });
 
             Console.WriteLine("Filtered Customers L-Z:");
             foreach (var customer in filteredLZCustomers)
             {
-                customer?.Display();
+                customer.Display();
             }
 
 
-            ICollection<Customer> filteredIDCustomers = GetCustomers(customers, (customer) => customer.ID < 100);
+            ICollection<Customer> filteredIDCustomers = GetCustomers(customers, (customer) => customer != null && customer.ID < 100);
 
             Console.WriteLine("Filtered Customers ID < 100:");
             foreach (Customer customer in filteredIDCustomers)

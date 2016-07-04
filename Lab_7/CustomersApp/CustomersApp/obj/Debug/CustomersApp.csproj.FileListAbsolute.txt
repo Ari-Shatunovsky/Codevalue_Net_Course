@@ -1,2 +1,7 @@
 C:\Projects\Learn\NET_CodeValue\Lab_7\CustomersApp\CustomersApp\bin\Debug\CustomersApp.exe.config
 C:\Projects\Learn\Codevalue_Net_Course\Lab_7\CustomersApp\CustomersApp\bin\Debug\CustomersApp.exe.config
+C:\Projects\Learn\Codevalue_Net_Course\Lab_7\CustomersApp\CustomersApp\bin\Debug\CustomersApp.exe
+C:\Projects\Learn\Codevalue_Net_Course\Lab_7\CustomersApp\CustomersApp\bin\Debug\CustomersApp.pdb
+C:\Projects\Learn\Codevalue_Net_Course\Lab_7\CustomersApp\CustomersApp\obj\Debug\CustomersApp.csprojResolveAssemblyReference.cache
+C:\Projects\Learn\Codevalue_Net_Course\Lab_7\CustomersApp\CustomersApp\obj\Debug\CustomersApp.exe
+C:\Projects\Learn\Codevalue_Net_Course\Lab_7\CustomersApp\CustomersApp\obj\Debug\CustomersApp.pdb
