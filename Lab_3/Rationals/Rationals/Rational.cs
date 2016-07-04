@@ -26,7 +26,7 @@ namespace Rationals
 
         public float Value
         {
-            get { return  (float) Numerator / Denominator; }
+            get { return (float)Numerator / Denominator; }
         }
 
         public static Rational operator +(Rational r1, Rational r2)
@@ -49,9 +49,19 @@ namespace Rationals
             return r1.Divide(r2);
         }
 
+        public static implicit operator Rational(int value)
+        {
+            return new Rational(value);
+        }
+
+        public static implicit operator double(Rational value)
+        {
+            return (double)value.Numerator / value.Denominator;
+        }
+
         public Rational Add(Rational rational)
         {
-            int newNumerator = Numerator * rational.Denominator + rational.Numerator*Denominator;
+            int newNumerator = Numerator * rational.Denominator + rational.Numerator * Denominator;
             int newDenominator = Denominator * rational.Denominator;
             Rational result = new Rational(newNumerator, newDenominator);
             result.Reduce();
@@ -71,7 +81,7 @@ namespace Rationals
         {
             int newNumerator = Numerator * rational.Numerator;
             int newDenominator = Denominator * rational.Denominator;
-            Rational result = new Rational(newNumerator, newDenominator); 
+            Rational result = new Rational(newNumerator, newDenominator);
             result.Reduce();
             return result;
         }
@@ -114,9 +124,9 @@ namespace Rationals
         {
             if (other is Rational)
             {
-                return Equals((Rational) other);
+                return Equals((Rational)other);
             }
-                return false;
+            return false;
         }
 
         public override int GetHashCode()
@@ -130,10 +140,7 @@ namespace Rationals
             {
                 return a;
             }
-            else
-            {
-                return GCD(b, a % b);
-            }
+            return GCD(b, a % b);
         }
     }
 }

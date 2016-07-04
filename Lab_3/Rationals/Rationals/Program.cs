@@ -17,10 +17,14 @@ namespace Rationals
             Rational r4 = new Rational(6, 8);
             Rational r5 = r4 - r1;
             Rational r6 = r4 / r1;
+            Rational r7 = (Rational) 8;
+            double d1 = (double) r1;
             Console.WriteLine(r1.ToString());
             Console.WriteLine(r3.ToString());
             Console.WriteLine(r5.ToString());
             Console.WriteLine(r6.ToString());
+            Console.WriteLine(r7.ToString());
+            Console.WriteLine(d1);
             Console.WriteLine(r4.Equals(r1).ToString());
         }
     }
