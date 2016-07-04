@@ -7,6 +7,10 @@ namespace Rationals
     {
         public Rational(int numerator, int denominator)
         {
+            if (denominator == 0)
+            {
+                throw new DivideByZeroException();
+            }
             Numerator = numerator;
             Denominator = denominator;
         }
@@ -25,6 +29,26 @@ namespace Rationals
             get { return  (float) Numerator / Denominator; }
         }
 
+        public static Rational operator +(Rational r1, Rational r2)
+        {
+            return r1.Add(r2);
+        }
+
+        public static Rational operator -(Rational r1, Rational r2)
+        {
+            return r1.Substract(r2);
+        }
+
+        public static Rational operator *(Rational r1, Rational r2)
+        {
+            return r1.Multiply(r2);
+        }
+
+        public static Rational operator /(Rational r1, Rational r2)
+        {
+            return r1.Divide(r2);
+        }
+
         public Rational Add(Rational rational)
         {
             int newNumerator = Numerator * rational.Denominator + rational.Numerator*Denominator;
@@ -34,11 +58,35 @@ namespace Rationals
             return result;
         }
 
-        public Rational Mul(Rational rational)
+        public Rational Substract(Rational rational)
+        {
+            int newNumerator = Numerator * rational.Denominator - rational.Numerator * Denominator;
+            int newDenominator = Denominator * rational.Denominator;
+            Rational result = new Rational(newNumerator, newDenominator);
+            result.Reduce();
+            return result;
+        }
+
+        public Rational Multiply(Rational rational)
         {
             int newNumerator = Numerator * rational.Numerator;
             int newDenominator = Denominator * rational.Denominator;
-            return new Rational(newNumerator, newDenominator);
+            Rational result = new Rational(newNumerator, newDenominator); 
+            result.Reduce();
+            return result;
+        }
+
+        public Rational Divide(Rational rational)
+        {
+            if (rational.Numerator == 0)
+            {
+                throw new DivideByZeroException();
+            }
+            int newNumerator = Numerator * rational.Denominator;
+            int newDenominator = Denominator * rational.Numerator;
+            Rational result = new Rational(newNumerator, newDenominator);
+            result.Reduce();
+            return result;
         }
 
         public void Reduce()
@@ -54,7 +102,7 @@ namespace Rationals
 
         public override string ToString()
         {
-            return string.Format("{0}/{1}", Numerator, Denominator);
+            return $"{Numerator}/{Denominator}";
         }
 
         public bool Equals(Rational other)
@@ -68,10 +116,12 @@ namespace Rationals
             {
                 return Equals((Rational) other);
             }
-            else
-            {
                 return false;
-            }
+        }
+
+        public override int GetHashCode()
+        {
+            return Numerator.GetHashCode() ^ Denominator.GetHashCode();
         }
 
         private static int GCD(int a, int b)
