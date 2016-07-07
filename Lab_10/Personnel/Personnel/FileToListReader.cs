@@ -20,7 +20,6 @@ namespace Personnel
             {
                 data.Add(reader.ReadLine());
             }
-
             return data;
         }
     }
