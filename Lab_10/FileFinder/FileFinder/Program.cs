@@ -12,6 +12,8 @@ namespace FileFinder
         static void Main(string[] args)
         {
 
+            FileFinder fileFinder = new FileFinder();
+
             bool isExit = false;
             while (!isExit)
             {
@@ -22,7 +24,7 @@ namespace FileFinder
 
                 try
                 {
-                    commands = ParseAndCheckCommands(input);
+                    commands = fileFinder.ParseAndCheckCommands(input);
                 }
                 catch (DirectoryNotFoundException)
                 {
@@ -41,7 +43,7 @@ namespace FileFinder
                     continue;
                 }
 
-                List<string> resulFiles = SearchForFiles(commands[0], commands[1]);
+                List<string> resulFiles = fileFinder.SearchForFiles(commands[0], commands[1]);
 
                 if (resulFiles.Count == 0)
                 {
@@ -59,45 +61,6 @@ namespace FileFinder
             }
         }
 
-        static List<string> SearchForFiles(string directory, string searchTerm)
-        {
-            List<string> resultFiles = new List<string>();
-            string[] subDirectories = Directory.GetDirectories(directory);
-            string[] files = Directory.GetFiles(directory);
-
-            foreach (var file in files)
-            {
-                string fileName = Path.GetFileName(file);
-                if (fileName.ToLowerInvariant().Contains(searchTerm))
-                {
-                    resultFiles.Add(file);
-                }
-            }
-
-            foreach (var subDirectory in subDirectories)
-            {
-                Console.WriteLine($"Searching in {subDirectory}");
-                resultFiles.AddRange(SearchForFiles(subDirectory, searchTerm));
-            }
-
-            return resultFiles;
-        }
-
-        static string[] ParseAndCheckCommands(string text)
-        {
-            if (text != null)
-            {
-                var commands = text.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
-                if (commands.Length == 1 && commands[0] == "-e" || commands.Length == 2 && Directory.Exists(commands[0]))
-                {
-                    return commands;
-                }
-                if (!Directory.Exists(commands[0]))
-                {
-                    throw new DirectoryNotFoundException();
-                }
-            }
-            throw new InvalidCommandException();
-        }
+        
     }
 }

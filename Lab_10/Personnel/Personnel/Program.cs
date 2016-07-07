@@ -11,11 +11,11 @@ namespace Personnel
     {
         static void Main(string[] args)
         {
-            string fileName = "..//..//Personnel.txt";
-
+            const string fileName = "..//..//Personnel.txt";
+            FileToListReader fileToListReader = new FileToListReader();;
             try
             {
-                List<string> data = ReadFile(fileName);
+                List<string> data = fileToListReader.ReadFile(fileName);
 
                 foreach (var text in data)
                 {
@@ -34,22 +34,6 @@ namespace Personnel
             {
                 Console.ReadLine();
             }
-
-        }
-
-        static List<string> ReadFile(string fileName)
-        {
-            FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.None);
-            StreamReader reader = new StreamReader(fileStream);
-
-            List<string> data = new List<string>();
-
-            while (!reader.EndOfStream)
-            {
-                data.Add(reader.ReadLine());
-            }
-
-            return data;
         }
     }
 }
