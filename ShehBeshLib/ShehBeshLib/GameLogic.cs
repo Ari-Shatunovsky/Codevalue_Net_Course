@@ -56,6 +56,14 @@ namespace ShehBeshLib
             return true;
         }
 
-        public bool MakeTurn
+        public bool IsPossibleMove(CellState player)
+
+//        public bool MakeTurn(CellState player, TurnType type, int[] dice, GameField field)
+//        {
+//            if (TurnType.OneCheckerSum)
+//            {
+//                
+//            }
+//        }
     }
 }

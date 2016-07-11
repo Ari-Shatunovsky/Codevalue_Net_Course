@@ -40,9 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsolePlayer.cs" />
+    <Compile Include="ConsoleRenderEngine.cs" />
     <Compile Include="GameCell.cs" />
     <Compile Include="GameField.cs" />
     <Compile Include="GameLogic.cs" />
+    <Compile Include="GameProcessor.cs" />
+    <Compile Include="IPlayer.cs" />
+    <Compile Include="IRenderEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
