@@ -28,6 +28,10 @@ namespace ShehBeshLib
         public GameField()
         {
             Cells = new List<GameCell>(24);
+            for (var i = 0; i < 24; i++)
+            {
+                Cells.Add(new GameCell());
+            }
             OutPlayerA = new GameCell();
             OutPlayerB = new GameCell();
         }

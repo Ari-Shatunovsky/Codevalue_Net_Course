@@ -1,9 +1,11 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿
+using System.Diagnostics;
 
 namespace ShehBeshLib
 {
     public interface IPlayer
     {
-        bool MakeTurn();
+        CellState State { get; set; }
+        TurnData GetTurn(TurnData[] turns);
     }
 }
