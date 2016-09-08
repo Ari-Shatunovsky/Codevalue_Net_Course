@@ -1,0 +1,117 @@
+//Flex
+
+@mixin sc-flex-mx($values) {
+  -webkit-box-flex: $values;
+  -moz-box-flex: $values;
+  -webkit-flex: $values;
+  -ms-flex: $values;
+  flex: $values;
+}
+
+.sc-flex {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  //Chrome bug fix
+  min-height: 0;
+  min-width: 0;
+}
+
+.sc-flex-v-stack {
+  @extend .sc-flex;
+  height: auto;
+  width: auto;
+  -ms-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.sc-flex-wrap {
+  @extend .sc-flex;
+  height: auto;
+  width: auto;
+  -webkit-flex-flow: row wrap;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+.sc-flex-row {
+  @extend .sc-flex;
+  overflow-y: auto;
+}
+
+.sc-flex-row-1 {
+  @extend .sc-flex-row;
+  @include sc-flex-mx(1 1 0%);
+}
+
+.sc-flex-row-2 {
+  @extend .sc-flex-row;
+  @include sc-flex-mx(2 1 0%);
+}
+
+.sc-flex-row-3 {
+  @extend .sc-flex-row;
+  @include sc-flex-mx(3 1 0%);
+}
+
+.sc-flex-h-stack {
+  @extend .sc-flex;
+  height: auto;
+  width: auto;
+  -ms-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+.sc-flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.sc-flex-col {
+  @extend .sc-flex;
+  overflow-x: auto;
+}
+
+.sc-flex-col-1 {
+  @extend .sc-flex-col;
+  @include sc-flex-mx(1 1 0%);
+}
+
+.sc-flex-col-2 {
+  @extend .sc-flex-col;
+  @include sc-flex-mx(2 1 0%);
+}
+
+.sc-flex-col-3 {
+  @extend .sc-flex-col;
+  @include sc-flex-mx(3 1 0%);
+}
+
+.sc-flex-col-10 {
+  @extend .sc-flex-col;
+  @include sc-flex-mx(10 1 0%);
+}
+
+
+//Stretch layout
+
+.sc-stretch-x {
+  width: 100%;
+}
+
+.sc-stretch-y {
+  height: 100%;
+}
+
+.sc-relative {
+  position: relative;
+}
+
+.sc-scroll {
+  overflow-y: scroll;
+}

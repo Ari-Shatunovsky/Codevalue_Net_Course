@@ -1,0 +1,11 @@
+product {
+  height: 30px !important;
+  min-width: 100px;
+  line-height: 30px;
+  border-bottom: 1px solid #ccc;
+
+  .product-price{
+    color: #9c0033;
+    text-align: left;
+  }
+}

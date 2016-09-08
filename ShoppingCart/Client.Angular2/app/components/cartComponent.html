@@ -1,0 +1,11 @@
+    <div>Shop: {{cart.shop.name}}</div>
+    <product *ngFor="let product of cart.products" [product]="product" class="sc-flex-col-1 sc-flex-h-stack"></product>
+    <div>Total: {{total()}}</div>
+    <input auto-complete
+           [(ngModel)]="newProduct"
+           [source]="searchApi()"
+           path-to-data=""
+           min-chars="2"
+           [value-changed]="boundAddItem"
+           display-property-name="name"/>
+
