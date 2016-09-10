@@ -9,35 +9,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var productService_1 = require("../services/productService");
+var apiService_1 = require("../services/apiService");
+var dataService_1 = require("../services/dataService");
 var AppComponent = (function () {
-    function AppComponent(productService) {
-        var _this = this;
-        this.productService = productService;
-        this.productService.getRandomCarts().subscribe(function (r) { _this.carts = r; });
-        var i = 0;
+    function AppComponent(dataService) {
+        this.dataService = dataService;
+        this.dataService.initCarts();
     }
+    AppComponent.prototype.currentCarts = function () {
+        return this.dataService.getCurrentCarts();
+    };
+    ;
+    AppComponent.prototype.savedCarts = function () {
+        return this.dataService.getSavedCarts();
+    };
+    ;
     AppComponent.prototype.synchronizeCarts = function () {
-        var _this = this;
-        var shops = [];
-        for (var i = 1; i < this.carts.length; i++) {
-            shops.push(this.carts[i].shop);
-        }
-        this.productService.synchronizeCarts(this.carts[0], shops).subscribe(function (r) {
-            for (var i = 0; i < r.length; i++) {
-                _this.carts[i + 1] = r[i];
-            }
-        });
+        this.dataService.synchronizeCarts();
+    };
+    AppComponent.prototype.selectCart = function (cart) {
+        this.dataService.setCurrentCart(cart);
     };
     AppComponent = __decorate([
         core_1.Component({
             selector: "app",
-            templateUrl: "app/components/app.html",
-            providers: [productService_1.ProductService]
+            templateUrl: "app/components/appComponent.html",
+            providers: [dataService_1.DataService, apiService_1.ApiService]
         }), 
-        __metadata('design:paramtypes', [productService_1.ProductService])
+        __metadata('design:paramtypes', [dataService_1.DataService])
     ], AppComponent);
     return AppComponent;
 }());
 exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.js.map
+//# sourceMappingURL=appComponent.js.map

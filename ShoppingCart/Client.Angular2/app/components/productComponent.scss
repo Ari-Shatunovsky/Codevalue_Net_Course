@@ -3,9 +3,24 @@ product {
   min-width: 100px;
   line-height: 30px;
   border-bottom: 1px solid #ccc;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  padding: 5px;
 
   .product-price{
     color: #9c0033;
     text-align: left;
+
+    &.product-price-units{
+      min-width: 80px !important;
+    }
+  }
+  .product-description{
+    div{
+      overflow-x: hidden !important;
+      overflow-y: hidden !important;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 }

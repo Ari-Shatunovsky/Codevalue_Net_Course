@@ -1,0 +1,15 @@
+<div class="sc-flex-v-stack sc-flex-row-1">
+    <div class="sc-flex-h-stack">
+        <h1>Shopping cart</h1>
+        <button (click)="synchronizeCarts()">Synchronize</button>
+    </div>
+    <div class="sc-flex-h-stack sc-flex-row-1">
+        <div class="sc-flex-col-1 sc-flex-v-stack">
+            <div>
+                Saved carts
+            </div>
+            <div *ngFor="let cart of savedCarts()" (click)="selectCart(cart)">{{cart.name}}</div>
+        </div>
+        <cart *ngFor="let cart of currentCarts()" [cart]="cart" class="sc-flex-col-1 sc-flex-v-stack"></cart>
+    </div>
+</div>

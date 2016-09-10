@@ -13,7 +13,6 @@ namespace ShoppingCart.Server.XMLEngine.Entities
         public Product()
         {
             SimilarProducts = new HashSet<Product>();
-            OtherSimilarProducts = new HashSet<Product>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -26,7 +25,6 @@ namespace ShoppingCart.Server.XMLEngine.Entities
         public Units Units { set; get; }
         public float Quantity { set; get; }
         public ICollection<Product> SimilarProducts { set; get; }
-        public ICollection<Product> OtherSimilarProducts { set; get; }
 
         public float PricePerUnit => Price/Quantity;
 

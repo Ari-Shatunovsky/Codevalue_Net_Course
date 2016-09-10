@@ -34,10 +34,10 @@ namespace ShoppingCart.Server.XMLEngine.Mappers
 
             this.HasOptional(p => p.Category).WithMany().Map(c => c.MapKey("CategoryId"));
             this.HasOptional(p => p.Shop).WithMany().Map(c => c.MapKey("ShopId"));
-            this.HasMany(p => p.SimilarProducts).WithMany(p => p.OtherSimilarProducts).Map(c =>
+            this.HasMany(p => p.SimilarProducts).WithMany().Map(c =>
             {
-                c.MapLeftKey("SimilarProductId");
-                c.MapRightKey("OtherSimilarProductId");
+                c.MapLeftKey("ProductId");
+                c.MapRightKey("SimilarProductId");
                 c.ToTable("SimilarProducts");
             });
 //            this.HasRequired(p => p.Shop).WithRequiredDependent();

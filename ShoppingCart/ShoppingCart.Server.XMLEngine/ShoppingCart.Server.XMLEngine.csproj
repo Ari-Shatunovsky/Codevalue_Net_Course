@@ -59,6 +59,7 @@
     <Compile Include="Entities\SimilarProductsRequest.cs" />
     <Compile Include="Entities\Units.cs" />
     <Compile Include="InitialData\InitialData.cs" />
+    <Compile Include="Mappers\CartMapper.cs" />
     <Compile Include="Mappers\ProductCategoryMapper.cs" />
     <Compile Include="Mappers\ProductMapper.cs" />
     <Compile Include="Mappers\ShopInfoMapper.cs" />

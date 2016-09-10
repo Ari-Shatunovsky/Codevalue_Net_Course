@@ -16,10 +16,10 @@ namespace ShoppingCartWeb
         {
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
-//            var cors = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors();
-            config.SuppressDefaultHostAuthentication();
-            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+                        var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
+            //config.SuppressDefaultHostAuthentication();
+//            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -31,14 +31,32 @@ namespace ShoppingCartWeb
             );
 
             config.Routes.MapHttpRoute(
+                name: "RandomCarts",
+                routeTemplate: "api/products/randomcarts",
+                defaults: new { controller = "products" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "Carts",
                 routeTemplate: "api/products/carts",
                 defaults: new { controller = "products" }
             );
 
             config.Routes.MapHttpRoute(
+                name: "Cart",
+                routeTemplate: "api/products/cart",
+                defaults: new { controller = "products" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "SimilarProducts",
                 routeTemplate: "api/products/similar",
+                defaults: new { controller = "products" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "ConnectProducts",
+                routeTemplate: "api/products/connectproducts",
                 defaults: new { controller = "products" }
             );
 

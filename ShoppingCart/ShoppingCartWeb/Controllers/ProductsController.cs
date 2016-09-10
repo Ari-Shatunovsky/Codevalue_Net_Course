@@ -17,7 +17,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace ShoppingCartWeb.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+//    [EnableCors(origins: "*", headers: "*", methods: "get,post")]
     public class ProductsController : ApiControllerBase
     {
         // GET: Product
@@ -26,20 +26,38 @@ namespace ShoppingCartWeb.Controllers
             IProductsRepository repository = new ProductsRepository(new ProductContext());
             return Json(repository.GetProductsByCategory(id));
         }
-
-        public HttpResponseMessage GetCarts()
+        [System.Web.Http.Route("api/products/randomcarts")]
+        public HttpResponseMessage GetRandomCarts()
         {
             IProductsRepository repository = new ProductsRepository(new ProductContext());
             return Json(repository.GetRandomCarts());
         }
 
-        //        [System.Web.Http.HttpPost]
-        //        [System.Web.Http.AcceptVerbs("OPTIONS")]
-//        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [System.Web.Http.Route("api/products/similar")]
         public HttpResponseMessage PostSimilarProducts(SimilarProductsRequest request)
         {
             IProductsRepository repository = new ProductsRepository(new ProductContext());
             return Json(repository.GetSimilarProducts(request.Cart, request.Shops));
+        }
+
+        [System.Web.Http.Route("api/products/connectproducts")]
+        public HttpResponseMessage PostConnectProducts(ICollection<Product> request)
+        {
+            IProductsRepository repository = new ProductsRepository(new ProductContext());
+            return Json(repository.SetSimilarProduct(request));
+        }
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("api/products/cart")]
+        public HttpResponseMessage PostCart(Cart request)
+        {
+            IProductsRepository repository = new ProductsRepository(new ProductContext());
+            return Json(repository.AddCart(request));
+        }
+        [System.Web.Http.Route("api/products/carts")]
+        public HttpResponseMessage GetCarts(Cart request)
+        {
+            IProductsRepository repository = new ProductsRepository(new ProductContext());
+            return Json(repository.GetSavedCarts());
         }
 
         public HttpResponseMessage GetSearch(int shopId, string searchTerm)
@@ -47,6 +65,5 @@ namespace ShoppingCartWeb.Controllers
             IProductsRepository repository = new ProductsRepository(new ProductContext());
             return Json(repository.SearchProductByName(shopId, searchTerm));
         }
-
     }
 }

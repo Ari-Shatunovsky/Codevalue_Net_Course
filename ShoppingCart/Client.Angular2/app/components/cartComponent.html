@@ -1,11 +1,18 @@
-    <div>Shop: {{cart.shop.name}}</div>
-    <product *ngFor="let product of cart.products" [product]="product" class="sc-flex-col-1 sc-flex-h-stack"></product>
-    <div>Total: {{total()}}</div>
-    <input auto-complete
-           [(ngModel)]="newProduct"
-           [source]="searchApi()"
-           path-to-data=""
-           min-chars="2"
-           [value-changed]="boundAddItem"
-           display-property-name="name"/>
+<div class="sc-flex-h-stack">
+    <div class="sc-flex-col-1">Shop: {{cart.shop.name}}</div>
+    <input class="sc-flex-col-1" placeholder="Enter cart's name" [(ngModel)]="cart.name">
+
+    <button (click)="save()">Save</button>
+</div>
+<product *ngFor="let product of cart.products" [product]="product" class="sc-flex-h-stack"></product>
+<input auto-complete
+       [(ngModel)]="newProduct"
+       [source]="searchApi()"
+       placeholder="Add new product"
+       path-to-data=""
+       min-chars="2"
+       [value-changed]="boundAddItem"
+       display-property-name="name"/>
+<div class="cart-total">Total: {{total()}}</div>
+
 

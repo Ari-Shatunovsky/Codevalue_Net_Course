@@ -22,12 +22,14 @@ namespace ShoppingCart.Server.XMLEngine.Relational
         public DbSet<Product> Products { get; set; } 
         public DbSet<ShopInfo> Shops { get; set; } 
         public DbSet<ProductCategory> ProductCategories{ get; set; }
+        public DbSet<Cart> Carts{ get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new ProductMapper());
             modelBuilder.Configurations.Add(new ShopInfoMapper());
             modelBuilder.Configurations.Add(new ProductCategoryMapper());
+            modelBuilder.Configurations.Add(new CartMapper());
 
             base.OnModelCreating(modelBuilder);
         }

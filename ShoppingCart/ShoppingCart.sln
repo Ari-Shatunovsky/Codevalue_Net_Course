@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart.Server.XMLEngi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart.Client.ConsoleClient", "ShoppingCart.Client.ConsoleClient\ShoppingCart.Client.ConsoleClient.csproj", "{4454AC91-8ED3-4034-BD0B-2C47460E12A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.WPFClient", "Client.WPFClient\Client.WPFClient.csproj", "{7CD13DD1-437A-4B58-BB54-4624E64CE8DA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCartWeb", "ShoppingCartWeb\ShoppingCartWeb.csproj", "{86523A82-0318-47D0-A49B-2512F985AB83}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{4454AC91-8ED3-4034-BD0B-2C47460E12A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4454AC91-8ED3-4034-BD0B-2C47460E12A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4454AC91-8ED3-4034-BD0B-2C47460E12A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7CD13DD1-437A-4B58-BB54-4624E64CE8DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7CD13DD1-437A-4B58-BB54-4624E64CE8DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7CD13DD1-437A-4B58-BB54-4624E64CE8DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7CD13DD1-437A-4B58-BB54-4624E64CE8DA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{86523A82-0318-47D0-A49B-2512F985AB83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{86523A82-0318-47D0-A49B-2512F985AB83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86523A82-0318-47D0-A49B-2512F985AB83}.Release|Any CPU.ActiveCfg = Release|Any CPU

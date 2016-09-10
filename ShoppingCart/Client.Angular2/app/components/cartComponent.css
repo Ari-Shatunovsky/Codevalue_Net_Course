@@ -1,0 +1,7 @@
+cart {
+  padding: 10px;
+  min-width: 400px !important;
+  overflow-x: visible;
+  overflow-y: visible; }
+  cart .cart-total {
+    margin: 5px 0; }

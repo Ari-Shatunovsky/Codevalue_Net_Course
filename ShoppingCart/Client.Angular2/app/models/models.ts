@@ -20,6 +20,7 @@ export interface Product {
     pricePerUnit: number;
     units: Units;
     quantity: number;
+    shop: ShopInfo;
 }
 
 export interface ShopInfo {
@@ -30,6 +31,8 @@ export interface ShopInfo {
 }
 
 export interface Cart {
+    id: number;
+    name: string;
     products: Product[];
     shop: ShopInfo;
 }

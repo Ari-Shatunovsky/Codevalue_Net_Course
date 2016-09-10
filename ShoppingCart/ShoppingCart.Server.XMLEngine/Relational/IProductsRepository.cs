@@ -12,11 +12,15 @@ namespace ShoppingCart.Server.XMLEngine.Relational
         ICollection<Product> GetProductsByCategory(int categoryId);
         ICollection<Product> SearchProductByName(int shopId, string searchTerm);
         ICollection<Cart> GetRandomCarts();
+        ICollection<Cart> GetSavedCarts();
         ICollection<Cart> GetSimilarProducts(Cart cart, ICollection<ShopInfo> shops );
         ICollection<ShopInfo> GetShops();
+
+        bool SetSimilarProduct(ICollection<Product> products);
         void AddProducts(ICollection<Product> products);
         void AddCategoies(ICollection<ProductCategory> productCategories);
         void AddShops(ICollection<ShopInfo> shops);
+        bool AddCart(Cart cart);
         void FindAndAddSimilarProducts(ShopInfo shop);
     }
 

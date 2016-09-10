@@ -15,44 +15,62 @@ var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var models_1 = require("../models/models");
 require('rxjs/add/operator/map');
-var ProductService = (function () {
-    function ProductService(http) {
+var ApiService = (function () {
+    function ApiService(http) {
         this.http = http;
         this.baseUrl = "http://localhost:16888/api/products";
     }
-    ProductService.prototype.getRandomCarts = function () {
+    ApiService.prototype.getRandomCarts = function () {
+        var carts = this.http.get(this.baseUrl + "/randomcarts")
+            .map(function (responseData) { return responseData.json(); })
+            .map(this.toCarts);
+        return carts;
+    };
+    ApiService.prototype.replaceProduct = function (originalProduct, similarProduct) {
+        var headers = new http_1.Headers();
+        headers.append("Content-Type", "application/json");
+        return this.http.post(this.baseUrl + "/connectproducts", JSON.stringify([originalProduct, similarProduct]), { headers: headers });
+    };
+    ApiService.prototype.saveCart = function (cart) {
+        var headers = new http_1.Headers();
+        headers.append("Content-Type", "application/json");
+        return this.http.post(this.baseUrl + "/cart", JSON.stringify(cart), { headers: headers });
+    };
+    ApiService.prototype.getSavedCarts = function () {
         var carts = this.http.get(this.baseUrl + "/carts")
             .map(function (responseData) { return responseData.json(); })
             .map(this.toCarts);
         return carts;
     };
-    ProductService.prototype.synchronizeCarts = function (cart, shops) {
+    ApiService.prototype.synchronizeCarts = function (cart, shops) {
         var headers = new http_1.Headers();
         headers.append("Content-Type", "application/json");
-        //
-        // headers.append("Accept", 'application/json');
-        // headers.append("Access-Control-Allow-Origin", "*");
-        // headers.append("Access-Control-Allow-Headers", 'x-requested-with');
-        var requestOptions = new http_1.RequestOptions({
-            method: http_1.RequestMethod.Post,
-            url: this.baseUrl + "/similar",
-            headers: headers,
-            body: { cart: cart, shops: shops }
-        });
+        // headers.append('Access-Control-Allow-Headers', 'Content-Type');
+        // headers.append('Access-Control-Allow-Methods', 'POST');
+        // headers.append('Access-Control-Allow-Origin', '*');
+        // headers.append("Allow-Orgin", "http://localhost:3000");
+        // var requestOptions = new RequestOptions({
+        //     method: RequestMethod.Post,
+        //     url: `${this.baseUrl}/similar`,
+        //     headers: headers,
+        //     body: {cart: cart, shops: shops }
+        // });
         var carts = this.http.post(this.baseUrl + "/similar", JSON.stringify({ cart: cart, shops: shops }), { headers: headers })
             .map(function (responseData) { return responseData.json(); })
             .map(this.toCarts);
         return carts;
     };
-    ProductService.prototype.toCarts = function (carts) {
+    ApiService.prototype.toCarts = function (carts) {
         return carts.map(function (c) {
             var cart = {
-                products: c.products.map(function (p) { return toProduct(p); }),
+                id: c.id,
+                name: c.name,
+                products: c.products.map(function (p) { return toProduct(p, c.shop); }),
                 shop: toShopInfo(c.shop)
             };
             return cart;
         });
-        function toProduct(p) {
+        function toProduct(p, s) {
             if (p) {
                 var product = {
                     id: p.id,
@@ -64,6 +82,7 @@ var ProductService = (function () {
                     manufactureName: p.manufactureName,
                     units: p.units,
                     quantity: p.quantity,
+                    shop: toShopInfo(p.shop)
                 };
                 return product;
             }
@@ -77,7 +96,8 @@ var ProductService = (function () {
                     manufactureCountry: "",
                     manufactureName: "",
                     units: models_1.Units.Kilogramm,
-                    quantity: 0
+                    quantity: 0,
+                    shop: s ? toShopInfo(s) : null
                 };
                 return product;
             }
@@ -92,12 +112,12 @@ var ProductService = (function () {
             return shopInfo;
         }
     };
-    ProductService = __decorate([
+    ApiService = __decorate([
         core_1.Injectable(),
         __param(0, core_1.Inject(http_1.Http)), 
         __metadata('design:paramtypes', [Object])
-    ], ProductService);
-    return ProductService;
+    ], ApiService);
+    return ApiService;
 }());
-exports.ProductService = ProductService;
-//# sourceMappingURL=productService.js.map
+exports.ApiService = ApiService;
+//# sourceMappingURL=apiService.js.map

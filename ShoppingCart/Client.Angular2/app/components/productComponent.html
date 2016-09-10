@@ -1,9 +1,31 @@
-    <div class="sc-flex-col-3">
+<div *ngIf="!isReplaceMode" class="sc-flex-col-1 sc-flex-h-stack product-description">
+    <div class="sc-flex-col-3 ">
         {{product.name}}
     </div>
+
     <div class="sc-flex-col-1 product-price">
         {{product.price}} nis
     </div>
-    <div class="sc-flex-col-1 product-price">
+    <div class="sc-flex-col-1 product-price product-price-units">
         {{getPricePerUnits()}} nis/{{getUnitsAbbr()}}
     </div>
+    <button (click)="toggleReplace()" *ngIf="!isEmpty()">Replace</button>
+    <button (click)="toggleReplace()"*ngIf="isEmpty()">Find</button>
+</div>
+<div *ngIf="isReplaceMode" class="sc-overflow-visible sc-flex-col-1 sc-flex-h-stack">
+    <div class="product-price">Replace product</div>
+    <!--<div>{{getNewProductName()}}</div>-->
+    <div class="sc-flex-col-1 sc-flex-h-stack sc-overflow-visible">
+        <input class="sc-flex-col-1"  auto-complete
+               [(ngModel)]="newProduct"
+               [source]="searchApi()"
+               placeholder="Find similar product"
+               path-to-data=""
+               min-chars="2"
+               [value-changed]="boundSwapItem"
+               display-property-name="name"/>
+    </div>
+    <button (click)="replace()">Done</button>
+    <button (click)="toggleReplace()">Cancel</button>
+</div>
+

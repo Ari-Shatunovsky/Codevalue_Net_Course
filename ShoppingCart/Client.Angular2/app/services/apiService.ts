@@ -7,12 +7,33 @@ import {Observable} from "rxjs/Rx";
 
 @Injectable()
 
-export class ProductService {
+export class ApiService {
     private baseUrl = "http://localhost:16888/api/products";
     constructor(@Inject(Http) private http){
 
-}
+    }
     getRandomCarts(): Observable<Cart[]>{
+        let carts = this.http.get(`${this.baseUrl}/randomcarts`)
+            .map(responseData => responseData.json())
+            .map(this.toCarts);
+        return carts;
+    }
+
+    replaceProduct(originalProduct: Product, similarProduct: Product): Observable<boolean>{
+        var headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        return this.http.post(`${this.baseUrl}/connectproducts`,JSON.stringify([originalProduct, similarProduct]), {headers: headers});
+    }
+
+    saveCart(cart: Cart){
+        var headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        return this.http.post(`${this.baseUrl}/cart`,JSON.stringify(cart), {headers: headers});
+    }
+
+    getSavedCarts(): Observable<Cart[]>{
         let carts = this.http.get(`${this.baseUrl}/carts`)
             .map(responseData => responseData.json())
             .map(this.toCarts);
@@ -22,19 +43,20 @@ export class ProductService {
     synchronizeCarts(cart: Cart, shops: ShopInfo[]): Observable<Cart[]>{
         var headers = new Headers();
         headers.append("Content-Type", "application/json");
-        //
-        // headers.append("Accept", 'application/json');
-        // headers.append("Access-Control-Allow-Origin", "*");
-        // headers.append("Access-Control-Allow-Headers", 'x-requested-with');
-        var requestOptions = new RequestOptions({
-            method: RequestMethod.Post,
-            url: `${this.baseUrl}/similar`,
-            headers: headers,
-            body: {cart: cart, shops: shops }
 
-        });
+        // headers.append('Access-Control-Allow-Headers', 'Content-Type');
+        // headers.append('Access-Control-Allow-Methods', 'POST');
+        // headers.append('Access-Control-Allow-Origin', '*');
+        // headers.append("Allow-Orgin", "http://localhost:3000");
 
-        let carts = this.http.post(`${this.baseUrl}/similar`, JSON.stringify({cart: cart, shops: shops }), {headers: headers})
+        // var requestOptions = new RequestOptions({
+        //     method: RequestMethod.Post,
+        //     url: `${this.baseUrl}/similar`,
+        //     headers: headers,
+        //     body: {cart: cart, shops: shops }
+        // });
+
+        let carts = this.http.post(`${this.baseUrl}/similar`,JSON.stringify({cart: cart, shops: shops }), {headers: headers})
             .map(responseData => responseData.json())
             .map(this.toCarts);
         return carts;
@@ -43,12 +65,15 @@ export class ProductService {
     toCarts(carts: any[]): Cart[]{
         return carts.map(c => {
             let cart = <Cart>{
-            products: c.products.map(p => toProduct(p)),
-            shop: toShopInfo(c.shop)
-        }
-            return cart;});
+                id: c.id,
+                name: c.name,
+                products: c.products.map(p => toProduct(p, c.shop)),
+                shop: toShopInfo(c.shop)
+            }
+            return cart;
+        });
 
-        function toProduct(p: any): Product{
+        function toProduct(p: any, s?: any): Product{
             if(p){
                 let product = <Product>{
                     id: p.id,
@@ -60,6 +85,7 @@ export class ProductService {
                     manufactureName: p.manufactureName,
                     units: p.units,
                     quantity: p.quantity,
+                    shop: toShopInfo(p.shop)
                 }
                 return product;
             } else {
@@ -72,7 +98,8 @@ export class ProductService {
                     manufactureCountry: "",
                     manufactureName: "",
                     units: Units.Kilogramm,
-                    quantity: 0
+                    quantity: 0,
+                    shop: s? toShopInfo(s) : null
                 }
                 return product;
             }

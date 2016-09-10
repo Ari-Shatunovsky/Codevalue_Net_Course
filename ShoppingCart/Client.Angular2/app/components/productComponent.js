@@ -10,9 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var models_1 = require("../models/models");
+var dataService_1 = require("../services/dataService");
 var ProductComponent = (function () {
-    function ProductComponent() {
+    function ProductComponent(dataService) {
+        this.dataService = dataService;
+        this.isReplaceMode = false;
     }
+    // public ngOnInit(){
+    //     this.boundSwapItem = this.swapItem.bind(this);
+    //
+    // }
+    ProductComponent.prototype.swapItem = function (a) {
+        // this.cart.products.push(this.newProduct);
+    };
     ProductComponent.prototype.getUnitsAbbr = function () {
         if (this.product.units == models_1.Units.Kilogramm) {
             return "kg";
@@ -28,13 +38,41 @@ var ProductComponent = (function () {
         }
         return "";
     };
+    ProductComponent.prototype.synchronizeCarts = function () {
+        this.dataService.synchronizeCarts();
+    };
+    ProductComponent.prototype.isEmpty = function () {
+        return this.product.id == 0;
+    };
+    ProductComponent.prototype.toggleReplace = function () {
+        this.isReplaceMode = !this.isReplaceMode;
+    };
+    ProductComponent.prototype.replace = function () {
+        this.dataService.replaceProduct(this.product, this.newProduct);
+        this.toggleReplace(); //this.product = this.newProduct;
+    };
+    ProductComponent.prototype.getNewProductName = function () {
+        if (!this.newProduct) {
+            return "";
+        }
+        else {
+            return this.newProduct.name;
+        }
+    };
+    ProductComponent.prototype.cancel = function () {
+        this.newProduct = null;
+        this.isReplaceMode = false;
+    };
+    ProductComponent.prototype.searchApi = function () {
+        return "http://localhost:16888/api/products/search/" + this.product.shop.id + "?searchTerm=:keyword";
+    };
     ProductComponent = __decorate([
         core_1.Component({
             selector: "product",
             templateUrl: "app/components/productComponent.html",
-            inputs: ["product"]
+            inputs: ["product"],
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [dataService_1.DataService])
     ], ProductComponent);
     return ProductComponent;
 }());
