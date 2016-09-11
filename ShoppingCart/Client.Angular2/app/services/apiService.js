@@ -26,6 +26,12 @@ var ApiService = (function () {
             .map(this.toCarts);
         return carts;
     };
+    ApiService.prototype.getEmptyCarts = function () {
+        var carts = this.http.get(this.baseUrl + "/emptycarts")
+            .map(function (responseData) { return responseData.json(); })
+            .map(this.toCarts);
+        return carts;
+    };
     ApiService.prototype.replaceProduct = function (originalProduct, similarProduct) {
         var headers = new http_1.Headers();
         headers.append("Content-Type", "application/json");

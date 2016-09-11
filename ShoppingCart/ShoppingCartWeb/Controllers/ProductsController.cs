@@ -26,11 +26,19 @@ namespace ShoppingCartWeb.Controllers
             IProductsRepository repository = new ProductsRepository(new ProductContext());
             return Json(repository.GetProductsByCategory(id));
         }
+
         [System.Web.Http.Route("api/products/randomcarts")]
         public HttpResponseMessage GetRandomCarts()
         {
             IProductsRepository repository = new ProductsRepository(new ProductContext());
             return Json(repository.GetRandomCarts());
+        }
+
+        [System.Web.Http.Route("api/products/emptycarts")]
+        public HttpResponseMessage GetEmptyCarts()
+        {
+            IProductsRepository repository = new ProductsRepository(new ProductContext());
+            return Json(repository.GetEmptyCarts());
         }
 
         [System.Web.Http.Route("api/products/similar")]

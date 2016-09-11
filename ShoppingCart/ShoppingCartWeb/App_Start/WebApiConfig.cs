@@ -37,6 +37,12 @@ namespace ShoppingCartWeb
             );
 
             config.Routes.MapHttpRoute(
+                name: "EmptyCarts",
+                routeTemplate: "api/products/emptycarts",
+                defaults: new { controller = "products" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "Carts",
                 routeTemplate: "api/products/carts",
                 defaults: new { controller = "products" }
@@ -65,6 +71,8 @@ namespace ShoppingCartWeb
                 routeTemplate: "api/products/search/{shopId}",
                 defaults: new { controller = "products" }
             );
+
+
 
             //            config.Routes.MapHttpRoute(
             //                name: "Categories",

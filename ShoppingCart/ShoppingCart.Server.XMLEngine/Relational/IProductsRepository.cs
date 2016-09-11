@@ -15,6 +15,7 @@ namespace ShoppingCart.Server.XMLEngine.Relational
         ICollection<Cart> GetSavedCarts();
         ICollection<Cart> GetSimilarProducts(Cart cart, ICollection<ShopInfo> shops );
         ICollection<ShopInfo> GetShops();
+        ICollection<Cart> GetEmptyCarts();
 
         bool SetSimilarProduct(ICollection<Product> products);
         void AddProducts(ICollection<Product> products);

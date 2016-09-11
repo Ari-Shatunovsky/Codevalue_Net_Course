@@ -151,19 +151,34 @@ namespace ShoppingCart.Server.XMLEngine.Relational
                 new Cart() {Products = new List<Product>(), Shop = ybitanShopInfo },
                 new Cart() {Products = new List<Product>(), Shop = coobShopInfo },
             };
-//            var victoryProducts = _ctx.Products.Where(p => p.Shop.Brand == ShopBrand.Victory).ToList();
-//            var ybitanProducts = _ctx.Products.Where(p => p.Shop.Brand == ShopBrand.YBitan).ToList();
-//            var coobProducts = _ctx.Products.Where(p => p.Shop.Brand == ShopBrand.Coob).ToList();
-//            for (var i = 0; i < cartSize; i++)
-//            {
-//                var victoryProduct = victoryProducts[rand.Next(victoryProducts.Count)];
-//                var ybitanProduct = searchEngine.Search(ybitanProducts, victoryProduct);
-//                var coobProduct = searchEngine.Search(coobProducts, victoryProduct);
-//
-//                result[0].Products.Add(victoryProduct);
-//                result[1].Products.Add(ybitanProduct);
-//                result[2].Products.Add(coobProduct);
-//            }
+            var victoryProducts = _ctx.Products.Where(p => p.Shop.Brand == ShopBrand.Victory).ToList();
+            var ybitanProducts = _ctx.Products.Where(p => p.Shop.Brand == ShopBrand.YBitan).ToList();
+            var coobProducts = _ctx.Products.Where(p => p.Shop.Brand == ShopBrand.Coob).ToList();
+            for (var i = 0; i < cartSize; i++)
+            {
+                var victoryProduct = victoryProducts[rand.Next(victoryProducts.Count)];
+                var ybitanProduct = searchEngine.Search(ybitanProducts, victoryProduct);
+                var coobProduct = searchEngine.Search(coobProducts, victoryProduct);
+
+                result[0].Products.Add(victoryProduct);
+                result[1].Products.Add(ybitanProduct);
+                result[2].Products.Add(coobProduct);
+            }
+            return result;
+        }
+
+        public ICollection<Cart> GetEmptyCarts()
+        {
+            var cartSize = 5;
+            var victoryShopInfo = _ctx.Shops.FirstOrDefault(s => s.Brand == ShopBrand.Victory);
+            var ybitanShopInfo = _ctx.Shops.FirstOrDefault(s => s.Brand == ShopBrand.YBitan);
+            var coobShopInfo = _ctx.Shops.FirstOrDefault(s => s.Brand == ShopBrand.Coob);
+            var result = new List<Cart>()
+            {
+                new Cart() {Products = new List<Product>(), Shop = victoryShopInfo },
+                new Cart() {Products = new List<Product>(), Shop = ybitanShopInfo },
+                new Cart() {Products = new List<Product>(), Shop = coobShopInfo },
+            };
             return result;
         }
 

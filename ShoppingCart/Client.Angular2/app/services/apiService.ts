@@ -19,6 +19,13 @@ export class ApiService {
         return carts;
     }
 
+    getEmptyCarts(): Observable<Cart[]>{
+        let carts = this.http.get(`${this.baseUrl}/emptycarts`)
+            .map(responseData => responseData.json())
+            .map(this.toCarts);
+        return carts;
+    }
+
     replaceProduct(originalProduct: Product, similarProduct: Product): Observable<boolean>{
         var headers = new Headers();
         headers.append("Content-Type", "application/json");
