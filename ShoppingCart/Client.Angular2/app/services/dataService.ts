@@ -30,6 +30,22 @@ export class DataService {
         }
     }
 
+    public deleteProduct(product: Product){
+        this.currentCarts.forEach((cart) => {
+            var index = cart.products.indexOf(product)
+            if(index != -1){
+                cart.products.splice(index , 1);
+            }
+        });
+    }
+
+    public setMainCart(cart: Cart){
+        var index = this.currentCarts.indexOf(cart);
+        var oldMain = this.currentCarts[0];
+        this.currentCarts[index] = oldMain;
+        this.currentCarts[0] = cart;
+    }
+
     public setCurrentCart(cart: Cart){
         this.currentCarts = [cart];
         this.synchronizeCarts();
@@ -51,7 +67,7 @@ export class DataService {
         });
     }
 
-    public replaceProduct(oldProduct: Product, newProduct: Product){
+    public reassignProduct(oldProduct: Product, newProduct: Product){
         var index = -1;
         var similarProduct;
         this.currentCarts.forEach((cart) => {
@@ -61,15 +77,19 @@ export class DataService {
             }
         });
         var originalProduct = this.currentCarts[0].products[index];
-        this.apiService.replaceProduct(originalProduct, newProduct).subscribe(() => {
+        this.apiService.reassignProduct(originalProduct, newProduct).subscribe(() => {
             this.synchronizeCarts();
         });
-        // this.currentCarts.forEach((cart) => {
-        //     var index = cart.products.indexOf(oldProduct);
-        //     if(index != -1){
-        //         cart.products[index] = newProduct;
-        //     }
-        // });
+    }
+
+    public replaceProduct(oldProduct: Product, newProduct: Product){
+        var index = -1;
+        this.currentCarts.forEach((cart) => {
+            if(cart.products.indexOf(oldProduct) >= 0){
+                index = cart.products.indexOf(oldProduct);
+                cart.products[index] = newProduct;
+            }
+        });
     }
     
     public synchronizeCarts() {

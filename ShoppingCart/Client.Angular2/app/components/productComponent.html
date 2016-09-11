@@ -1,16 +1,21 @@
-<div *ngIf="!isReplaceMode" class="sc-flex-col-1 sc-flex-h-stack product-description">
-    <div class="sc-flex-col-3 ">
-        {{product.name}}
-    </div>
+<div *ngIf="!isReplaceMode" class="sc-flex-col-1 sc-flex-v-stack product-description">
+    <div class="sc-flex-row-1 sc-flex-h-stack">
+        <div class="sc-flex-col-3 ">
+            {{product.name}}
+        </div>
 
-    <div class="sc-flex-col-1 product-price">
-        {{product.price}} nis
+        <div class="sc-flex-col-1 product-price">
+            {{product.price}} nis
+        </div>
+        <div class="sc-flex-col-1 product-price product-price-units">
+            {{getPricePerUnits()}} nis/{{getUnitsAbbr()}}
+        </div>
     </div>
-    <div class="sc-flex-col-1 product-price product-price-units">
-        {{getPricePerUnits()}} nis/{{getUnitsAbbr()}}
+    <div class="sc-flex-row-1 sc-flex-h-stack">
+        <button (click)="delete()">Delete</button>
+        <button (click)="toggleReplace()" *ngIf="isMainCart()">Replace</button>
+        <button (click)="toggleReplace()"*ngIf="!isMainCart()">Reassign</button>
     </div>
-    <button (click)="toggleReplace()" *ngIf="!isEmpty()">Replace</button>
-    <button (click)="toggleReplace()"*ngIf="isEmpty()">Find</button>
 </div>
 <div *ngIf="isReplaceMode" class="sc-overflow-visible sc-flex-col-1 sc-flex-h-stack">
     <div class="product-price">Replace product</div>
@@ -25,7 +30,8 @@
                [value-changed]="boundSwapItem"
                display-property-name="name"/>
     </div>
-    <button (click)="replace()">Done</button>
+    <button (click)="replace()" *ngIf="isMainCart()">Replace</button>
+    <button (click)="replace()" *ngIf="!isMainCart()">Reassign</button>
     <button (click)="toggleReplace()">Cancel</button>
 </div>
 

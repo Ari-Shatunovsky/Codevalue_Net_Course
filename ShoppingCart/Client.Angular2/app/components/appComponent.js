@@ -24,9 +24,6 @@ var AppComponent = (function () {
         return this.dataService.getSavedCarts();
     };
     ;
-    AppComponent.prototype.synchronizeCarts = function () {
-        this.dataService.synchronizeCarts();
-    };
     AppComponent.prototype.selectCart = function (cart) {
         this.dataService.setCurrentCart(cart);
     };

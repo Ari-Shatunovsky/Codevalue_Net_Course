@@ -21,7 +21,29 @@ body{
   }
 }
 
+h1{
+  text-align: center;
+}
+
+.saved-carts{
+  width: 120px!important;
+  margin: 10px;
+  h3{
+    text-align: center;
+  }
+  .saved-cart-item{
+    line-height: 30px;
+    padding-left: 10px;
+    height: 30px;
+    border-top: 1px solid #ccc;
+    cursor: pointer;
+    &:hover{
+      background-color: #eee;
+    }
+  }
+}
+
 button{
-  height: 30px;
+  height: 20px;
   min-width: 60px;
 }

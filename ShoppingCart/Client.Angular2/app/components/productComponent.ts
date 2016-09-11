@@ -15,15 +15,6 @@ export class ProductComponent {
     public boundSwapItem: Function;
 
 
-    // public ngOnInit(){
-    //     this.boundSwapItem = this.swapItem.bind(this);
-    //
-    // }
-
-    public swapItem(a){
-        // this.cart.products.push(this.newProduct);
-    }
-
     private getUnitsAbbr(): string{
         if(this.product.units == Units.Kilogramm){
             return "kg";
@@ -32,6 +23,10 @@ export class ProductComponent {
             return "l";
         }
         return "un"
+    }
+
+    private delete(){
+        this.dataService.deleteProduct(this.product);
     }
 
     private getPricePerUnits(): string {
@@ -53,9 +48,14 @@ export class ProductComponent {
         this.isReplaceMode = !this.isReplaceMode;
     }
 
+    private reassign() {
+        this.dataService.reassignProduct(this.product, this.newProduct);
+        this.toggleReplace();//this.product = this.newProduct;
+    }
+
     private replace() {
         this.dataService.replaceProduct(this.product, this.newProduct);
-        this.toggleReplace();//this.product = this.newProduct;
+        this.toggleReplace();
     }
 
     private getNewProductName() {
@@ -64,6 +64,10 @@ export class ProductComponent {
         } else {
             return this.newProduct.name;
         }
+    }
+
+    private isMainCart(): boolean{
+        return this.dataService.getCurrentCarts()[0].shop.id == this.product.shop.id;
     }
 
     private cancel() {

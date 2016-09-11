@@ -117,8 +117,9 @@ namespace ShoppingCart.Server.XMLEngine.Relational
                 {
                     product.SimilarProducts.Add(similar);
                 }
+                _ctx.Products.AddOrUpdate(product);
             }
-            _ctx.Products.AddOrUpdate(products.ToArray());
+            
             _ctx.SaveChanges();
             Console.WriteLine($"Finishing to add similar products for {shop.Name}");
         }
@@ -133,7 +134,7 @@ namespace ShoppingCart.Server.XMLEngine.Relational
             char[] delimiters = { ',', ';', ' ', '-' };
             var words = searchTerm.Split(delimiters);
             var wordsLength = words.Length;
-            return _ctx.Products.Where(p => p.Shop.Id == shopId && words.Count(w => p.Name.Contains(w)) == wordsLength).ToList();
+            return _ctx.Products.Include(p => p.Shop).Where(p => p.Shop.Id == shopId && words.Count(w => p.Name.Contains(w)) == wordsLength).ToList();
         }
 
         public ICollection<Cart> GetRandomCarts()
@@ -150,19 +151,19 @@ namespace ShoppingCart.Server.XMLEngine.Relational
                 new Cart() {Products = new List<Product>(), Shop = ybitanShopInfo },
                 new Cart() {Products = new List<Product>(), Shop = coobShopInfo },
             };
-            var victoryProducts = _ctx.Products.Where(p => p.Shop.Brand == ShopBrand.Victory).ToList();
-            var ybitanProducts = _ctx.Products.Where(p => p.Shop.Brand == ShopBrand.YBitan).ToList();
-            var coobProducts = _ctx.Products.Where(p => p.Shop.Brand == ShopBrand.Coob).ToList();
-            for (var i = 0; i < cartSize; i++)
-            {
-                var victoryProduct = victoryProducts[rand.Next(victoryProducts.Count)];
-                var ybitanProduct = searchEngine.Search(ybitanProducts, victoryProduct);
-                var coobProduct = searchEngine.Search(coobProducts, victoryProduct);
-
-                result[0].Products.Add(victoryProduct);
-                result[1].Products.Add(ybitanProduct);
-                result[2].Products.Add(coobProduct);
-            }
+//            var victoryProducts = _ctx.Products.Where(p => p.Shop.Brand == ShopBrand.Victory).ToList();
+//            var ybitanProducts = _ctx.Products.Where(p => p.Shop.Brand == ShopBrand.YBitan).ToList();
+//            var coobProducts = _ctx.Products.Where(p => p.Shop.Brand == ShopBrand.Coob).ToList();
+//            for (var i = 0; i < cartSize; i++)
+//            {
+//                var victoryProduct = victoryProducts[rand.Next(victoryProducts.Count)];
+//                var ybitanProduct = searchEngine.Search(ybitanProducts, victoryProduct);
+//                var coobProduct = searchEngine.Search(coobProducts, victoryProduct);
+//
+//                result[0].Products.Add(victoryProduct);
+//                result[1].Products.Add(ybitanProduct);
+//                result[2].Products.Add(coobProduct);
+//            }
             return result;
         }
 

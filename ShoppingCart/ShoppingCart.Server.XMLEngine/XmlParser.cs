@@ -35,8 +35,7 @@ namespace ShoppingCart.Server.XMLEngine
                         ManufactureName = node.SelectSingleNode("ManufactureName")?.InnerText,
                         Quantity = unitsQuantity.Quantity,
                         Units = unitsQuantity.Units,
-                        Shop = shop
-                        //Categories = new List<ProductCategory>()
+                        Shop = shop,
                     };
                     product.Category = categorizer.GetCategoryForProduct(product);
                     products.Add(product);

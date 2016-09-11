@@ -9,7 +9,7 @@ using ShoppingCart.Server.XMLEngine.InitialData;
 using ShoppingCart.Server.XMLEngine.Parsers;
 using ShoppingCart.Server.XMLEngine.Relational;
 
-namespace ShoppingCart.Client.ConsoleClient
+namespace ShoppingCar.DataMigrator
 {
     class Program
     {

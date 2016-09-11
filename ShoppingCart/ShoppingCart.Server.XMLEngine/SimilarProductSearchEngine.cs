@@ -36,27 +36,24 @@ namespace ShoppingCart.Server.XMLEngine
 
         public ICollection<Product> SearchByName(ICollection<Product> products, Product product)
         {
-//            var result = new List<RangedSearch>();
-//            result = products.Where(p => GetNamesSimilarity(p.Name, product.Name) > 30).
-//                Select(p => new RangedSearch() {Product = product, Similarity = GetNamesSimilarity(p.Name, product.Name) }).ToList();
-            var similaProducts = products.Where(p => GetNamesSimilarity(p.Name, product.Name) > 40).OrderBy(p => -GetNamesSimilarity(p.Name, product.Name)).ToList();
+            var similaProducts = products.Where(p => GetNamesSimilarity(p.Name, product.Name) > 30).OrderBy(p => -GetNamesSimilarity(p.Name, product.Name)).ToList();
             return similaProducts;
         }
 
         private int GetNamesSimilarity(string name1, string name2)
         {
 
-            name1 = _regexG.Replace(name1, "");
-            name1 = _regexMl.Replace(name1, "");
-            name1 = _regexL.Replace(name1, "");
-            name1 = _regexU.Replace(name1, "");
-            name1 = _regexKg.Replace(name1, "");
-
-            name2 = _regexG.Replace(name2, "");
-            name2 = _regexMl.Replace(name2, "");
-            name2 = _regexL.Replace(name2, "");
-            name2 = _regexU.Replace(name2, "");
-            name2 = _regexKg.Replace(name2, "");
+//            name1 = _regexG.Replace(name1, "");
+//            name1 = _regexMl.Replace(name1, "");
+//            name1 = _regexL.Replace(name1, "");
+//            name1 = _regexU.Replace(name1, "");
+//            name1 = _regexKg.Replace(name1, "");
+//
+//            name2 = _regexG.Replace(name2, "");
+//            name2 = _regexMl.Replace(name2, "");
+//            name2 = _regexL.Replace(name2, "");
+//            name2 = _regexU.Replace(name2, "");
+//            name2 = _regexKg.Replace(name2, "");
 
             char[] delimiters = new[] {',', ';', ' ', '-'};
             var words1 = name1.Split(delimiters);

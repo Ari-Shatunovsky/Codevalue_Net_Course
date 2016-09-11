@@ -53,6 +53,8 @@ namespace ShoppingCartWeb.Controllers
             IProductsRepository repository = new ProductsRepository(new ProductContext());
             return Json(repository.AddCart(request));
         }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [System.Web.Http.Route("api/products/carts")]
         public HttpResponseMessage GetCarts(Cart request)
         {

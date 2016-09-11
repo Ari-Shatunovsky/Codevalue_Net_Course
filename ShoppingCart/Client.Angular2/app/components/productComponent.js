@@ -16,13 +16,6 @@ var ProductComponent = (function () {
         this.dataService = dataService;
         this.isReplaceMode = false;
     }
-    // public ngOnInit(){
-    //     this.boundSwapItem = this.swapItem.bind(this);
-    //
-    // }
-    ProductComponent.prototype.swapItem = function (a) {
-        // this.cart.products.push(this.newProduct);
-    };
     ProductComponent.prototype.getUnitsAbbr = function () {
         if (this.product.units == models_1.Units.Kilogramm) {
             return "kg";
@@ -31,6 +24,9 @@ var ProductComponent = (function () {
             return "l";
         }
         return "un";
+    };
+    ProductComponent.prototype.delete = function () {
+        this.dataService.deleteProduct(this.product);
     };
     ProductComponent.prototype.getPricePerUnits = function () {
         if (this.product.pricePerUnit.toFixed) {
@@ -47,9 +43,13 @@ var ProductComponent = (function () {
     ProductComponent.prototype.toggleReplace = function () {
         this.isReplaceMode = !this.isReplaceMode;
     };
+    ProductComponent.prototype.reassign = function () {
+        this.dataService.reassignProduct(this.product, this.newProduct);
+        this.toggleReplace(); //this.product = this.newProduct;
+    };
     ProductComponent.prototype.replace = function () {
         this.dataService.replaceProduct(this.product, this.newProduct);
-        this.toggleReplace(); //this.product = this.newProduct;
+        this.toggleReplace();
     };
     ProductComponent.prototype.getNewProductName = function () {
         if (!this.newProduct) {
@@ -58,6 +58,9 @@ var ProductComponent = (function () {
         else {
             return this.newProduct.name;
         }
+    };
+    ProductComponent.prototype.isMainCart = function () {
+        return this.dataService.getCurrentCarts()[0].shop.id == this.product.shop.id;
     };
     ProductComponent.prototype.cancel = function () {
         this.newProduct = null;

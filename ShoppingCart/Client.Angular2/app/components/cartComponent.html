@@ -3,6 +3,8 @@
     <input class="sc-flex-col-1" placeholder="Enter cart's name" [(ngModel)]="cart.name">
 
     <button (click)="save()">Save</button>
+    <button (click)="setMain()" *ngIf="!isMainCart()">Set as main</button>
+    <button (click)="synchronizeCarts()" *ngIf="isMainCart()">Synchronize others</button>
 </div>
 <product *ngFor="let product of cart.products" [product]="product" class="sc-flex-h-stack"></product>
 <input auto-complete

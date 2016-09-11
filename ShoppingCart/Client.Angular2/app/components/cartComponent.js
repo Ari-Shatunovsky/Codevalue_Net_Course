@@ -13,8 +13,6 @@ var dataService_1 = require("../services/dataService");
 var CartComponent = (function () {
     function CartComponent(dataService) {
         this.dataService = dataService;
-        this.stam = ["aaaa", "bbbbb", "ccccc"];
-        this.dataService.initCarts();
     }
     CartComponent.prototype.ngOnInit = function () {
         this.boundAddItem = this.addItem.bind(this);
@@ -25,6 +23,15 @@ var CartComponent = (function () {
             this.cart.products.map(function (p) { total += p.price; });
         }
         return total.toFixed(1);
+    };
+    CartComponent.prototype.synchronizeCarts = function () {
+        this.dataService.synchronizeCarts();
+    };
+    CartComponent.prototype.setMain = function () {
+        this.dataService.setMainCart(this.cart);
+    };
+    CartComponent.prototype.isMainCart = function () {
+        return this.dataService.getCurrentCarts().indexOf(this.cart) == 0;
     };
     CartComponent.prototype.save = function () {
         this.dataService.saveCart(this.cart);

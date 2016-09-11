@@ -19,10 +19,6 @@ export class AppComponent {
         return this.dataService.getSavedCarts();
     };
 
-    private synchronizeCarts(){
-        this.dataService.synchronizeCarts();
-    }
-
     private selectCart(cart: Cart){
         this.dataService.setCurrentCart(cart);
     }

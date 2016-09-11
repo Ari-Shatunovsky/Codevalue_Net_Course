@@ -9,14 +9,16 @@ import {DataService} from "../services/dataService";
 })
 
 export class CartComponent {
-    public boundAddItem: Function;
+    private boundAddItem: Function;
 
-    public ngOnInit(){
+    private ngOnInit(){
         this.boundAddItem = this.addItem.bind(this);
     }
-    public cart: Cart;
-    public newProduct: Product;
-    public total(){
+
+    private cart: Cart;
+    private newProduct: Product;
+
+    private total(){
         if(this.cart){
             var total = 0;
             this.cart.products.map(p => {total += p.price})
@@ -24,22 +26,32 @@ export class CartComponent {
         return total.toFixed(1);
     }
 
-    public save() {
+    private synchronizeCarts(){
+        this.dataService.synchronizeCarts();
+    }
+
+    private setMain(){
+        this.dataService.setMainCart(this.cart);
+    }
+
+    private isMainCart(){
+        return this.dataService.getCurrentCarts().indexOf(this.cart) == 0;
+    }
+
+    private save() {
         this.dataService.saveCart(this.cart);
     }
 
-     public addItem(a){
+    private addItem(a){
         this.cart.products.push(this.newProduct);
     }
-    private stam = ["aaaa", "bbbbb", "ccccc"];
 
     private searchApi(): string  {
         return `http://localhost:16888/api/products/search/${this.cart.shop.id}?searchTerm=:keyword`
     }
 
     constructor(private dataService: DataService){
-        this.dataService.initCarts();
+
     }
-    // private searchApi = "https://maps.googleapis.com/maps/api/geocode/json?address=:keyword"
 }
 

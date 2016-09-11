@@ -34,6 +34,20 @@ var DataService = (function () {
             });
         }
     };
+    DataService.prototype.deleteProduct = function (product) {
+        this.currentCarts.forEach(function (cart) {
+            var index = cart.products.indexOf(product);
+            if (index != -1) {
+                cart.products.splice(index, 1);
+            }
+        });
+    };
+    DataService.prototype.setMainCart = function (cart) {
+        var index = this.currentCarts.indexOf(cart);
+        var oldMain = this.currentCarts[0];
+        this.currentCarts[index] = oldMain;
+        this.currentCarts[0] = cart;
+    };
     DataService.prototype.setCurrentCart = function (cart) {
         this.currentCarts = [cart];
         this.synchronizeCarts();
@@ -52,7 +66,7 @@ var DataService = (function () {
             });
         });
     };
-    DataService.prototype.replaceProduct = function (oldProduct, newProduct) {
+    DataService.prototype.reassignProduct = function (oldProduct, newProduct) {
         var _this = this;
         var index = -1;
         var similarProduct;
@@ -63,15 +77,18 @@ var DataService = (function () {
             }
         });
         var originalProduct = this.currentCarts[0].products[index];
-        this.apiService.replaceProduct(originalProduct, newProduct).subscribe(function () {
+        this.apiService.reassignProduct(originalProduct, newProduct).subscribe(function () {
             _this.synchronizeCarts();
         });
-        // this.currentCarts.forEach((cart) => {
-        //     var index = cart.products.indexOf(oldProduct);
-        //     if(index != -1){
-        //         cart.products[index] = newProduct;
-        //     }
-        // });
+    };
+    DataService.prototype.replaceProduct = function (oldProduct, newProduct) {
+        var index = -1;
+        this.currentCarts.forEach(function (cart) {
+            if (cart.products.indexOf(oldProduct) >= 0) {
+                index = cart.products.indexOf(oldProduct);
+                cart.products[index] = newProduct;
+            }
+        });
     };
     DataService.prototype.synchronizeCarts = function () {
         var _this = this;

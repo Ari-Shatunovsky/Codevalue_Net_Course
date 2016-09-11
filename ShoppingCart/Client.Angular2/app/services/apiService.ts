@@ -44,18 +44,6 @@ export class ApiService {
         var headers = new Headers();
         headers.append("Content-Type", "application/json");
 
-        // headers.append('Access-Control-Allow-Headers', 'Content-Type');
-        // headers.append('Access-Control-Allow-Methods', 'POST');
-        // headers.append('Access-Control-Allow-Origin', '*');
-        // headers.append("Allow-Orgin", "http://localhost:3000");
-
-        // var requestOptions = new RequestOptions({
-        //     method: RequestMethod.Post,
-        //     url: `${this.baseUrl}/similar`,
-        //     headers: headers,
-        //     body: {cart: cart, shops: shops }
-        // });
-
         let carts = this.http.post(`${this.baseUrl}/similar`,JSON.stringify({cart: cart, shops: shops }), {headers: headers})
             .map(responseData => responseData.json())
             .map(this.toCarts);
