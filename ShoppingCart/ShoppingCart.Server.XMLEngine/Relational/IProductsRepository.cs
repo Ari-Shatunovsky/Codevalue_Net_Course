@@ -9,20 +9,20 @@ namespace ShoppingCart.Server.XMLEngine.Relational
 {
     public interface IProductsRepository
     {
-        ICollection<Product> GetProductsByCategory(int categoryId);
-        ICollection<Product> SearchProductByName(int shopId, string searchTerm);
-        ICollection<Cart> GetRandomCarts();
-        ICollection<Cart> GetSavedCarts();
-        ICollection<Cart> GetSimilarProducts(Cart cart, ICollection<ShopInfo> shops );
-        ICollection<ShopInfo> GetShops();
-        ICollection<Cart> GetEmptyCarts();
+        Task<ICollection<Product>> GetProductsByCategoryAsync(int categoryId);
+        Task<ICollection<Product>> SearchProductByNameAsync(int shopId, string searchTerm);
+        Task<ICollection<Cart>> GetRandomCartsAsync();
+        Task<ICollection<Cart>> GetSavedCartsAsync();
+        Task<ICollection<Cart>> GetSimilarProductsAsync(Cart cart, ICollection<ShopInfo> shops );
+        Task<ICollection<ShopInfo>> GetShopsAsync();
+        Task<ICollection<Cart>> GetEmptyCartsAsync();
 
-        bool SetSimilarProduct(ICollection<Product> products);
-        void AddProducts(ICollection<Product> products);
-        void AddCategoies(ICollection<ProductCategory> productCategories);
-        void AddShops(ICollection<ShopInfo> shops);
-        bool AddCart(Cart cart);
-        void FindAndAddSimilarProducts(ShopInfo shop);
+        Task<bool> SetSimilarProductAsync(ICollection<Product> products);
+        Task<bool> AddProductsAsync(ICollection<Product> products);
+        Task<bool> AddCategoiesAsync(ICollection<ProductCategory> productCategories);
+        Task<bool> AddShopsAsync(ICollection<ShopInfo> shops);
+        Task<bool> AddCartAsync(Cart cart);
+        Task<bool> FindAndAddSimilarProductsAsync(ShopInfo shop);
     }
 
 }

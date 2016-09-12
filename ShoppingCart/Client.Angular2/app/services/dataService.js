@@ -26,11 +26,11 @@ var DataService = (function () {
             { id: 3, name: "Coob Jerusaleem", brand: models_1.ShopBrand.Coob, branchId: 18 },
         ];
         if (!this.currentCarts && !this.savedCarts) {
+            this.apiService.getSavedCarts().subscribe(function (carts) {
+                _this.savedCarts = carts;
+            });
             this.apiService.getEmptyCarts().subscribe(function (carts) {
                 _this.currentCarts = carts;
-                _this.apiService.getSavedCarts().subscribe(function (carts) {
-                    _this.savedCarts = carts;
-                });
             });
         }
     };

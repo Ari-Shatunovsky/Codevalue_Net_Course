@@ -26,7 +26,7 @@ export class ApiService {
         return carts;
     }
 
-    replaceProduct(originalProduct: Product, similarProduct: Product): Observable<boolean>{
+    reassignProduct(originalProduct: Product, similarProduct: Product): Observable<boolean>{
         var headers = new Headers();
         headers.append("Content-Type", "application/json");
 

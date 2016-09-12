@@ -21,11 +21,11 @@ export class DataService {
             {id: 3, name: "Coob Jerusaleem", brand: ShopBrand.Coob, branchId: 18},
         ]
         if(!this.currentCarts && !this.savedCarts){
+            this.apiService.getSavedCarts().subscribe((carts) => {
+                this.savedCarts = carts;
+            });
             this.apiService.getEmptyCarts().subscribe((carts) => {
                 this.currentCarts = carts;
-                this.apiService.getSavedCarts().subscribe((carts) => {
-                    this.savedCarts = carts;
-                });
             });
         }
     }

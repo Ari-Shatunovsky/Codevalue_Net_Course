@@ -32,7 +32,7 @@ var ApiService = (function () {
             .map(this.toCarts);
         return carts;
     };
-    ApiService.prototype.replaceProduct = function (originalProduct, similarProduct) {
+    ApiService.prototype.reassignProduct = function (originalProduct, similarProduct) {
         var headers = new http_1.Headers();
         headers.append("Content-Type", "application/json");
         return this.http.post(this.baseUrl + "/connectproducts", JSON.stringify([originalProduct, similarProduct]), { headers: headers });
