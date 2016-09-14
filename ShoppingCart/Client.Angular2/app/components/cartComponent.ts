@@ -34,6 +34,14 @@ export class CartComponent {
         this.dataService.setMainCart(this.cart);
     }
 
+    private isMax(){
+        return this.dataService.isMaxCart(this.cart);
+    }
+
+    private isMin(){
+        return this.dataService.isMinCart(this.cart);
+    }
+
     private isMainCart(){
         return this.dataService.getCurrentCarts().indexOf(this.cart) == 0;
     }

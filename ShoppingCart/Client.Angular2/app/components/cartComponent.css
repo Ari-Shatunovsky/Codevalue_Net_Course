@@ -4,4 +4,9 @@ cart {
   overflow-x: visible;
   overflow-y: visible; }
   cart .cart-total {
-    margin: 5px 0; }
+    margin: 5px 0;
+    font-weight: bold; }
+    cart .cart-total.cart-max {
+      color: #770000; }
+    cart .cart-total.cart-min {
+      color: #007700; }

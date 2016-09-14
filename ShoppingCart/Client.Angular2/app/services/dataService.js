@@ -34,6 +34,78 @@ var DataService = (function () {
             });
         }
     };
+    DataService.prototype.isMaxProduct = function (product) {
+        var index = -1;
+        var result = true;
+        this.currentCarts.forEach(function (cart) {
+            if (cart.products.indexOf(product) !== -1) {
+                index = cart.products.indexOf(product);
+            }
+        });
+        this.currentCarts.forEach(function (cart) {
+            if (cart.products[index] && cart.products[index].price > product.price) {
+                result = false;
+            }
+        });
+        return result;
+    };
+    DataService.prototype.isMinProduct = function (product) {
+        var index = -1;
+        var result = true;
+        this.currentCarts.forEach(function (cart) {
+            if (cart.products.indexOf(product) !== -1) {
+                index = cart.products.indexOf(product);
+            }
+        });
+        this.currentCarts.forEach(function (cart) {
+            if (cart.products[index] && cart.products[index].price < product.price) {
+                result = false;
+            }
+        });
+        return result;
+    };
+    DataService.prototype.isMaxCart = function (cart) {
+        var result = true;
+        var total = 0;
+        cart.products.forEach(function (product) { total += product.price; });
+        this.currentCarts.forEach(function (c) {
+            if (c !== cart) {
+                var t = 0;
+                c.products.forEach(function (product) { t += product.price; });
+                if (t > total) {
+                    result = false;
+                }
+            }
+        });
+        return result;
+    };
+    DataService.prototype.isMinCart = function (cart) {
+        var result = true;
+        var total = 0;
+        cart.products.forEach(function (product) { total += product.price; });
+        this.currentCarts.forEach(function (c) {
+            if (c !== cart) {
+                var t = 0;
+                c.products.forEach(function (product) { t += product.price; });
+                if (t < total) {
+                    result = false;
+                }
+            }
+        });
+        return result;
+    };
+    DataService.prototype.generateRandomCarts = function () {
+        var _this = this;
+        this.apiService.getRandomCarts().subscribe(function (carts) {
+            _this.currentCarts = carts;
+        });
+    };
+    DataService.prototype.generateEmptyCarts = function () {
+        var _this = this;
+        this.apiService.getEmptyCarts().subscribe(function (carts) {
+            _this.currentCarts = carts;
+        });
+    };
     DataService.prototype.deleteProduct = function (product) {
         this.currentCarts.forEach(function (cart) {
             var index = cart.products.indexOf(product);
@@ -77,7 +149,7 @@ var DataService = (function () {
             }
         });
         var originalProduct = this.currentCarts[0].products[index];
-        this.apiService.reassignProduct(originalProduct, newProduct).subscribe(function () {
+        this.apiService.reassignProduct(originalProduct, newProduct, oldProduct).subscribe(function () {
             _this.synchronizeCarts();
         });
     };
@@ -98,13 +170,11 @@ var DataService = (function () {
                 shops.push(shop);
             }
         });
-        // for(let i = 1; i < this.currentCarts.length; i++){
-        //     shops.push(this.currentCarts[i].shop);
-        // }
         this.apiService.synchronizeCarts(this.currentCarts[0], shops).subscribe(function (carts) {
             for (var i = 0; i < carts.length; i++) {
                 _this.currentCarts[i + 1] = carts[i];
             }
+            _this.currentCarts[0].products.sort(function (p1, p2) { return (p1.name > p2.name) ? 1 : ((p1.name > p2.name) ? -1 : 0); });
         });
     };
     DataService = __decorate([

@@ -11,12 +11,10 @@ namespace ShoppingCart.Server.XMLEngine.Relational
 {
     public class ProductContext : DbContext
     {
-        public ProductContext() : base("ShoppingCartDbConnectionString")
+        public ProductContext() : base("ShoppingCartDb")
         {
             Configuration.ProxyCreationEnabled = false;
             Configuration.LazyLoadingEnabled = false;
-
-            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<ProductContext>());
         }
 
         public DbSet<Product> Products { get; set; } 

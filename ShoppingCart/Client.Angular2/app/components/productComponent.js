@@ -40,6 +40,12 @@ var ProductComponent = (function () {
     ProductComponent.prototype.isEmpty = function () {
         return this.product.id == 0;
     };
+    ProductComponent.prototype.isMin = function () {
+        return this.dataService.isMinProduct(this.product);
+    };
+    ProductComponent.prototype.isMax = function () {
+        return this.dataService.isMaxProduct(this.product);
+    };
     ProductComponent.prototype.toggleReplace = function () {
         this.isReplaceMode = !this.isReplaceMode;
     };

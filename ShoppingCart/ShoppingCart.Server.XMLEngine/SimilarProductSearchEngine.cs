@@ -26,7 +26,6 @@ namespace ShoppingCart.Server.XMLEngine
             _regexKg = new Regex(@"((?:[1-9]\d*|0)?(?:\.\d+)) ?(ק)");
         }
 
-
         public Product SearchById(ICollection<Product> products, Product product)
         {
             return products.FirstOrDefault(p => p.ProductId == product.ProductId);

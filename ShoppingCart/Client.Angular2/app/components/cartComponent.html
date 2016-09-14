@@ -7,7 +7,10 @@
     <button (click)="synchronizeCarts()" *ngIf="isMainCart()">Synchronize others</button>
 </div>
 <product *ngFor="let product of cart.products" [product]="product" class="sc-flex-h-stack"></product>
-<input auto-complete
+
+<div class="cart-total" [ngClass]="{'cart-min': isMin(), 'cart-max': isMax()}">Total: {{total()}}</div>
+
+<input *ngIf="isMainCart()" auto-complete
        [(ngModel)]="newProduct"
        [source]="searchApi()"
        placeholder="Add new product"
@@ -15,6 +18,3 @@
        min-chars="2"
        [value-changed]="boundAddItem"
        display-property-name="name"/>
-<div class="cart-total">Total: {{total()}}</div>
-
-

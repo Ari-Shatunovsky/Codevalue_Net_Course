@@ -18,7 +18,6 @@ using Newtonsoft.Json.Serialization;
 
 namespace ShoppingCartWeb.Controllers
 {
-//    [EnableCors(origins: "*", headers: "*", methods: "get,post")]
     public class ProductsController : ApiControllerBase
     {
         // GET: Product

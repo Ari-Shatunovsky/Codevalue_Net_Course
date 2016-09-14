@@ -24,6 +24,14 @@ var AppComponent = (function () {
         return this.dataService.getSavedCarts();
     };
     ;
+    AppComponent.prototype.getRandomCarts = function () {
+        this.dataService.generateRandomCarts();
+    };
+    ;
+    AppComponent.prototype.getEmptyCarts = function () {
+        this.dataService.generateEmptyCarts();
+    };
+    ;
     AppComponent.prototype.selectCart = function (cart) {
         this.dataService.setCurrentCart(cart);
     };

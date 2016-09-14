@@ -30,6 +30,12 @@ var CartComponent = (function () {
     CartComponent.prototype.setMain = function () {
         this.dataService.setMainCart(this.cart);
     };
+    CartComponent.prototype.isMax = function () {
+        return this.dataService.isMaxCart(this.cart);
+    };
+    CartComponent.prototype.isMin = function () {
+        return this.dataService.isMinCart(this.cart);
+    };
     CartComponent.prototype.isMainCart = function () {
         return this.dataService.getCurrentCarts().indexOf(this.cart) == 0;
     };

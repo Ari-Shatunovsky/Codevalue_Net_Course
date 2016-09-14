@@ -11,16 +11,21 @@ using ShoppingCart.Server.XMLEngine.Relational;
 
 namespace ShoppingCar.DataMigrator
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
+        {
+            ProgramAsync().Wait();
+        }
+
+        private static async Task ProgramAsync()
         {
             var ctx = new ProductContext();
             var repository = new ProductsRepository(ctx);
 
-            repository.AddShops(InitialData.Shops);
+            await repository.AddShopsAsync(InitialData.Shops);
 
-            var shops = repository.GetShops();
+            var shops = await repository.GetShopsAsync();
             var victoryInfo = shops.First(s => s.Brand == ShopBrand.Victory);
             var ybitanInfo = shops.First(s => s.Brand == ShopBrand.YBitan);
             var coobInfo = shops.First(s => s.Brand == ShopBrand.Coob);
@@ -30,6 +35,7 @@ namespace ShoppingCar.DataMigrator
 
             var ybitanProducts = parser.ParseFile("../../../ShoppingCart.Server.XMLEngine/Xml/YbitanSample.Xml",
                 new YbUnitsParser(), "/Root/Items/Item", ybitanInfo);
+
             var coobProducts = parser.ParseFile("../../../ShoppingCart.Server.XMLEngine/Xml/CoobSample.Xml",
                 new CoobUnitsParser(), "/root/Items/item", coobInfo);
 
@@ -37,14 +43,15 @@ namespace ShoppingCar.DataMigrator
             ybitanProducts = ybitanProducts.ToList();
             coobProducts = coobProducts.ToList();
 
-            repository.AddCategoies(Categorizer.Categories);
-            repository.AddProducts(victoryProducts);
-            repository.AddProducts(ybitanProducts);
-            repository.AddProducts(coobProducts);
+            await repository.AddCategoiesAsync(Categorizer.Categories);
 
-            repository.FindAndAddSimilarProducts(victoryInfo);
-            repository.FindAndAddSimilarProducts(ybitanInfo);
-            repository.FindAndAddSimilarProducts(coobInfo);
+            await repository.AddProductsAsync(victoryProducts);
+            await repository.AddProductsAsync(ybitanProducts);
+            await repository.AddProductsAsync(coobProducts);
+
+            Task.WaitAll(new ProductsRepository(new ProductContext()).FindAndAddSimilarProductsAsync(victoryInfo),
+                new ProductsRepository(new ProductContext()).FindAndAddSimilarProductsAsync(ybitanInfo),
+                new ProductsRepository(new ProductContext()).FindAndAddSimilarProductsAsync(coobInfo));
         }
     }
 }

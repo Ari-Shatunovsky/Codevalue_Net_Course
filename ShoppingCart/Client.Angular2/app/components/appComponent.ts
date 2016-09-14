@@ -19,6 +19,14 @@ export class AppComponent {
         return this.dataService.getSavedCarts();
     };
 
+    private getRandomCarts() {
+        this.dataService.generateRandomCarts();
+    };
+
+    private getEmptyCarts() {
+        this.dataService.generateEmptyCarts();
+    };
+
     private selectCart(cart: Cart){
         this.dataService.setCurrentCart(cart);
     }

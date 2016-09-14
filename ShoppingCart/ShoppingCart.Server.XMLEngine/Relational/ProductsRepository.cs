@@ -26,6 +26,7 @@ namespace ShoppingCart.Server.XMLEngine.Relational
             var prodArray = products.ToArray();
             var originalId = prodArray[0].Id;
             var similarId = prodArray[1].Id;
+            var oldId = prodArray[2].Id;
             var originalProduct =
                 await _ctx.Products.Include(c => c.SimilarProducts)
                     .Include(c => c.Shop)
@@ -34,33 +35,20 @@ namespace ShoppingCart.Server.XMLEngine.Relational
                 await _ctx.Products.Include(c => c.SimilarProducts)
                     .Include(c => c.Shop)
                     .FirstOrDefaultAsync(cp => cp.Id == similarId);
-            var originalProductSp = originalProduct.SimilarProducts.ToList();
-            var similarProductSp = similarProduct?.SimilarProducts.ToList() ?? new List<Product>();
+            var oldProduct =
+                await _ctx.Products.Include(c => c.SimilarProducts)
+                    .Include(c => c.Shop)
+                    .FirstOrDefaultAsync(cp => cp.Id == oldId);
 
-            var indexOp = originalProductSp.FindIndex(p => p.Id == similarProduct.Id);
-            var indexSp = similarProductSp.FindIndex(p => p.Id == originalProduct.Id);
-            if (indexOp >= 0)
+            if (oldProduct != null)
             {
-                originalProductSp[indexOp] = similarProduct;
+                originalProduct.SimilarProducts.Remove(oldProduct);
+                oldProduct.SimilarProducts.Remove(originalProduct);
             }
-            else
-            {
-                originalProductSp.Add(similarProduct);
-            }
-            originalProduct.SimilarProducts = originalProductSp;
 
-            if (indexSp >= 0)
-            {
-                similarProductSp[indexOp] = originalProduct;
-            }
-            else
-            {
-                similarProductSp.Add(originalProduct);
-            }
-            similarProduct.SimilarProducts = similarProductSp;
+            originalProduct.SimilarProducts.Add(similarProduct);
+            similarProduct.SimilarProducts.Add(originalProduct);
 
-            _ctx.Products.AddOrUpdate(originalProduct);
-            _ctx.Products.AddOrUpdate(similarProduct);
             await _ctx.SaveChangesAsync();
             return true;
 
@@ -95,12 +83,26 @@ namespace ShoppingCart.Server.XMLEngine.Relational
 
         public async Task<bool> AddCartAsync(Cart cart)
         {
-            var shop = await _ctx.Shops.FirstOrDefaultAsync(s => s.Id == cart.Shop.Id);
-            cart.Shop = shop;
+            var newcart = await _ctx.Carts.Include(c => c.Shop).Include(c => c.Products).FirstOrDefaultAsync(c => c.Id == cart.Id);
             var productIds = cart.Products.Select(p => p.Id);
-            var products = await _ctx.Products.Where(p => productIds.Contains(p.Id)).ToListAsync();
-            cart.Products = products;
-            _ctx.Carts.AddOrUpdate(cart);
+            if (newcart != null)
+            {
+                cart = newcart;
+            }
+
+;            var shop = await _ctx.Shops.FirstOrDefaultAsync(s => s.Id == cart.Shop.Id);
+            cart.Shop = shop;
+            var products = await _ctx.Products.Where(p => productIds.Contains(p.Id)).OrderBy(p => p.Name).ToListAsync();
+            cart.Products.Clear();
+            foreach (var product in products)
+            {
+                cart.Products.Add(product);
+            }
+            //cart.Products.Add();= products.OrderBy(p => p.Name).ToList();
+            if (newcart == null)
+            {
+                _ctx.Carts.Add(cart);
+            }
             await _ctx.SaveChangesAsync();
             return true;
         }
@@ -122,8 +124,13 @@ namespace ShoppingCart.Server.XMLEngine.Relational
                     product.SimilarProducts.Add(similar);
                 }
                 _ctx.Products.AddOrUpdate(product);
+
+                if (i % 100 == 0)
+                {
+                    await _ctx.SaveChangesAsync();
+                }
             }
-            
+
             await _ctx.SaveChangesAsync();
             Console.WriteLine($"Finishing to add similar products for {shop.Name}");
             return true;
@@ -156,9 +163,12 @@ namespace ShoppingCart.Server.XMLEngine.Relational
                 new Cart() {Products = new List<Product>(), Shop = ybitanShopInfo },
                 new Cart() {Products = new List<Product>(), Shop = coobShopInfo },
             };
-            var victoryProducts = await _ctx.Products.Where(p => p.Shop.Brand == ShopBrand.Victory).ToListAsync();
-            var ybitanProducts = await _ctx.Products.Where(p => p.Shop.Brand == ShopBrand.YBitan).ToListAsync();
-            var coobProducts = await _ctx.Products.Where(p => p.Shop.Brand == ShopBrand.Coob).ToListAsync();
+            var products = await Task.WhenAll(new ProductContext().Products.Include(p => p.Shop).Where(p => p.Shop.Brand == ShopBrand.Victory).ToListAsync(),
+                new ProductContext().Products.Include(p => p.Shop).Where(p => p.Shop.Brand == ShopBrand.YBitan).ToListAsync(),
+                new ProductContext().Products.Include(p => p.Shop).Where(p => p.Shop.Brand == ShopBrand.Coob).ToListAsync());
+            var victoryProducts = products[0];
+            var ybitanProducts = products[1];
+            var coobProducts = products[2];
             for (var i = 0; i < cartSize; i++)
             {
                 var victoryProduct = victoryProducts[rand.Next(victoryProducts.Count)];
@@ -197,7 +207,7 @@ namespace ShoppingCart.Server.XMLEngine.Relational
                              _ctx.Products.Include(np => np.Shop)
                                 .Include(np => np.SimilarProducts)
                                 .FirstOrDefault(nnp => nnp.Id == p.Id)).ToList();
-                cart.Products = products;
+                cart.Products = products.OrderBy(p => p.Name).ToList();
             }
             return carts;
         }
@@ -206,14 +216,14 @@ namespace ShoppingCart.Server.XMLEngine.Relational
         {
             var result = new List<Cart>();
             var productIds = cart.Products.Select(p => p.Id);
-            var products = await _ctx.Products.Include(c => c.SimilarProducts).Include(c => c.Shop).Where(p => productIds.Contains(p.Id)).ToListAsync();
+            var products = await _ctx.Products.Include(c => c.SimilarProducts).Include(c => c.Shop).Where(p => productIds.Contains(p.Id)).OrderBy(p => p.Name).ToListAsync();
             foreach (var shop in shops)
             {
                 var newCart = new Cart() {Products = new List<Product>(), Shop = shop};
                 foreach (var product in products)
                 {
                     var similarProductIds = product.SimilarProducts.Select(p => p.Id);
-                    var similarProduct = await  _ctx.Products.Include(p => p.Shop).FirstOrDefaultAsync(p => similarProductIds.Contains(p.Id) && p.Shop.Id == shop.Id);
+                    var similarProduct = _ctx.Products.Include(p => p.Shop).FirstOrDefault(p => similarProductIds.Contains(p.Id) && p.Shop.Id == shop.Id);
                     newCart.Products.Add(similarProduct);
                 }
                 result.Add(newCart);

@@ -26,11 +26,11 @@ export class ApiService {
         return carts;
     }
 
-    reassignProduct(originalProduct: Product, similarProduct: Product): Observable<boolean>{
+    reassignProduct(originalProduct: Product, similarProduct: Product, oldProduct: Product): Observable<boolean>{
         var headers = new Headers();
         headers.append("Content-Type", "application/json");
 
-        return this.http.post(`${this.baseUrl}/connectproducts`,JSON.stringify([originalProduct, similarProduct]), {headers: headers});
+        return this.http.post(`${this.baseUrl}/connectproducts`,JSON.stringify([originalProduct, similarProduct, oldProduct]), {headers: headers});
     }
 
     saveCart(cart: Cart){

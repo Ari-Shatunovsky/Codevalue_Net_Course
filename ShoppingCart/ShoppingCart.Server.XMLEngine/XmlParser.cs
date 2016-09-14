@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,14 +16,13 @@ namespace ShoppingCart.Server.XMLEngine
         {
             var categorizer = new Categorizer();
             var doc = new XmlDocument();
-            doc.Load(fileName);
-
-            var nodes = doc.DocumentElement?.SelectNodes(root);
-
             var products = new List<Product>();
 
-            if (nodes != null)
+            try
             {
+                doc.Load(fileName);
+                var nodes = doc.DocumentElement?.SelectNodes(root);
+                if (nodes == null) return products;
                 foreach (XmlNode node in nodes)
                 {
                     var unitsQuantity = unitsParser.GetUnitsQuantity(node);
@@ -35,11 +35,27 @@ namespace ShoppingCart.Server.XMLEngine
                         ManufactureName = node.SelectSingleNode("ManufactureName")?.InnerText,
                         Quantity = unitsQuantity.Quantity,
                         Units = unitsQuantity.Units,
-                        Shop = shop,
+                        Shop = shop
                     };
                     product.Category = categorizer.GetCategoryForProduct(product);
                     products.Add(product);
                 }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine($"File not found: {fileName}");
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Console.WriteLine($"Can't access: {fileName}");
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine($"Directory not exist: {fileName}");
+            }
+            catch (XmlException)
+            {
+                Console.WriteLine($"Wrong format: {fileName}");
             }
             return products;
         }

@@ -68,13 +68,9 @@
     <Compile Include="Entities\UnitsQuantity.cs" />
     <Compile Include="Parsers\VictoryUnitsParser.cs" />
     <Compile Include="Parsers\YbUnitsParser.cs" />
-    <Compile Include="ProductSorter.cs" />
     <Compile Include="Relational\IProductsRepository.cs" />
     <Compile Include="Relational\ProductContext.cs" />
-    <Compile Include="Relational\ProductContextMigrationConfiguration.cs" />
-    <Compile Include="Relational\ProductDataSeeder.cs" />
     <Compile Include="Relational\ProductsRepository.cs" />
-    <Compile Include="SearchEngine.cs" />
     <Compile Include="SimilarProductSearchEngine.cs" />
     <Compile Include="XmlParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

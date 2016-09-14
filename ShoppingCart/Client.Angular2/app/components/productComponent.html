@@ -1,4 +1,5 @@
-<div *ngIf="!isReplaceMode" class="sc-flex-col-1 sc-flex-v-stack product-description">
+<div *ngIf="!isReplaceMode" class="sc-flex-col-1 sc-flex-v-stack product-description"
+     [ngClass]="{'product-min': isMin(), 'product-max': isMax()}">
     <div class="sc-flex-row-1 sc-flex-h-stack">
         <div class="sc-flex-col-3 ">
             {{product.name}}

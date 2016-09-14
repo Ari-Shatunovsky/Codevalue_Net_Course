@@ -30,6 +30,82 @@ export class DataService {
         }
     }
 
+    public isMaxProduct(product: Product): boolean {
+        var index = -1;
+        var result = true;
+        this.currentCarts.forEach((cart) => {
+             if(cart.products.indexOf(product)  !== -1){
+                 index = cart.products.indexOf(product);
+             }
+        });
+        this.currentCarts.forEach((cart) => {
+            if(cart.products[index] && cart.products[index].price > product.price){
+                result = false;
+            }
+        });
+        return result;
+    }
+
+    public isMinProduct(product: Product): boolean {
+        var index = -1;
+        var result = true;
+        this.currentCarts.forEach((cart) => {
+            if(cart.products.indexOf(product)  !== -1){
+                index = cart.products.indexOf(product);
+            }
+        });
+        this.currentCarts.forEach((cart) => {
+            if(cart.products[index] && cart.products[index].price < product.price){
+                result = false;
+            }
+        });
+        return result;
+    }
+
+    public isMaxCart(cart): boolean {
+        var result = true;
+        var total = 0;
+        cart.products.forEach((product) => {total += product.price});
+        this.currentCarts.forEach((c) => {
+            if(c !== cart){
+                var t = 0;
+                c.products.forEach((product) => {t += product.price});
+                if(t > total){
+                    result = false;
+                }
+            }
+        });
+        return result;
+    }
+
+    public isMinCart(cart): boolean {
+        var result = true;
+        var total = 0;
+        cart.products.forEach((product) => {total += product.price});
+        this.currentCarts.forEach((c) => {
+            if(c !== cart){
+                var t = 0;
+                c.products.forEach((product) => {t += product.price});
+                if(t < total){
+                    result = false;
+                }
+            }
+        });
+        return result;
+    }
+
+    public generateRandomCarts(){
+        this.apiService.getRandomCarts().subscribe((carts) => {
+            this.currentCarts = carts;
+        });
+    }
+
+    public generateEmptyCarts(){
+        this.apiService.getEmptyCarts().subscribe((carts) => {
+            this.currentCarts = carts;
+        });
+    }
+
     public deleteProduct(product: Product){
         this.currentCarts.forEach((cart) => {
             var index = cart.products.indexOf(product)
@@ -77,7 +153,7 @@ export class DataService {
             }
         });
         var originalProduct = this.currentCarts[0].products[index];
-        this.apiService.reassignProduct(originalProduct, newProduct).subscribe(() => {
+        this.apiService.reassignProduct(originalProduct, newProduct, oldProduct).subscribe(() => {
             this.synchronizeCarts();
         });
     }
@@ -99,13 +175,11 @@ export class DataService {
                 shops.push(shop);
             }
         });
-        // for(let i = 1; i < this.currentCarts.length; i++){
-        //     shops.push(this.currentCarts[i].shop);
-        // }
         this.apiService.synchronizeCarts(this.currentCarts[0], shops).subscribe((carts) => {
             for(let i = 0; i < carts.length; i++){
                 this.currentCarts[i + 1] = carts[i];
             }
+            this.currentCarts[0].products.sort((p1, p2) => {return (p1.name > p2.name) ? 1 : ((p1.name > p2.name) ? -1 : 0);});
         });
     }
 }

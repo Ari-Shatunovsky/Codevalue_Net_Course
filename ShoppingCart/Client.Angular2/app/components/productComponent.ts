@@ -44,6 +44,14 @@ export class ProductComponent {
         return this.product.id == 0;
     }
 
+    private isMin(): boolean {
+        return this.dataService.isMinProduct(this.product);
+    }
+
+    private isMax(): boolean {
+        return this.dataService.isMaxProduct(this.product);
+    }
+
     private toggleReplace() {
         this.isReplaceMode = !this.isReplaceMode;
     }
